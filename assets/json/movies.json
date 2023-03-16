@@ -1,0 +1,87 @@
+{
+  "movie_details":[
+    {
+      "movie_name": "Land Of Mine",
+      "image_url": "https://www.coffeeandcigarettes.co.uk/wp-content/uploads/2017/08/LandOfMine_CCWebsite_1600x900-1.jpg"
+    },
+    {
+      "movie_name": "Downtown Abbey",
+      "image_url": "https://preview.redd.it/atyf1poo8oe31.jpg?auto=webp&s=d28749798085f4b4947e99c167dc3b2ab1f04e30"
+    },
+    {
+      "movie_name": "The railway Man",
+      "image_url": "https://www.telegraph.co.uk/content/dam/films/2017/06/29/14061801551117207912327206_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=480"
+    },
+    {
+      "movie_name": "Oblivion",
+      "image_url": "http://entertainment.time.com/wp-content/uploads/sites/3/2013/08/oblivion-poster.jpg"
+    },
+    {
+      "movie_name": "Train To Busan",
+      "image_url": "https://images.template.net/wp-content/uploads/2016/10/24110602/Korean-Thriller-Movie-Poster.jpg"
+    },
+    {
+      "movie_name": "Suite Francise",
+      "image_url": "https://www.telegraph.co.uk/content/dam/films/2017/06/29/Suite-Francaise-UK-Quad-Poster-1024x768_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=480"
+    },
+    {
+      "movie_name": "Nightmare Alley",
+      "image_url": "https://images.wallpapersden.com/image/download/nightmare-alley-4k-movie-poster_bWVtbmqUmZqaraWkpJRnbW1lrWZtZWU.jpg"
+    },
+    {
+      "movie_name": "The Lord Of The Rings",
+      "image_url": "https://www.femalefirst.co.uk/image-library/land/1000/t/the-lord-of-the-rings-feature-poster.jpg"
+    },
+    {
+      "movie_name": "Mortal Combat",
+      "image_url": "https://pbs.twimg.com/media/EwGYaAfUcAIxexq?format=jpg&name=900x900"
+    },
+    {
+      "movie_name": "X Men",
+      "image_url": "https://webneel.com/wnet/file/images/11-16/8-xmen-movie-poster-design.jpg"
+    },
+
+    {
+      "movie_name": "Mad Max",
+      "image_url": "https://images.squarespace-cdn.com/content/v1/567064569cadb63cb308ddb1/1450208617048-6Z99SCNCDPDOLOVN6RO4/mad-max-fury-road-movie-posters.jpg"
+    },
+    {
+      "movie_name": "The Dark Knigt",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuR3SYVI7yMZ6zc2EMaBp5Dv6bLZDtkBgpoQ&usqp=CAU"
+    },
+    {
+      "movie_name": "Guardians Of Galaxy",
+      "image_url": "https://rukminim1.flixcart.com/image/416/416/poster/z/6/k/guardians-of-the-galaxy-poster-for-room-hollywood-movie-posters-original-imaepaw5zdgv4nzh.jpeg?q=70"
+    },
+    {
+      "movie_name": "The Conjuring",
+      "image_url": "http://talithasolomonharrison.weebly.com/uploads/2/3/7/5/23758705/568187.jpg?726"
+    },
+    {
+      "movie_name": "Kantara",
+      "image_url": "https://pbs.twimg.com/media/FkpO91CVEAAYCK5.jpg"
+    },
+    {
+      "movie_name": "Pathan",
+      "image_url": "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-750,h-550/et00323848-ffttjctrvc-landscape.jpg"
+    },
+    {
+      "movie_name": "Gangs Of London",
+      "image_url": "https://www.bt.com/content/dam/bt/portal/images/articles/tv/tv-drama-gangs-of-london-season-2-first-look-9.jpg/jcr:content/renditions/landscape-desktop.764.430.jpg"
+    },
+    {
+      "movie_name": "Inception",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVorrO7KFm1kXGxrKGQ3esDlv2qE7mkZXmgQ&usqp=CAU"
+    },
+    {
+      "movie_name": "The Revenant",
+      "image_url": "https://eadn-wc03-224032.nxedge.io/cdn/app/uploads/2016/02/Revenant.jpg"
+    },
+    {
+      "movie_name": "Tomorrow Land",
+      "image_url": "https://lh3.googleusercontent.com/-fslbcjifu5Q/Vpkt085VTjI/AAAAAAAAHo4/T1GQ74sAxZI/s912-Ic42/Tomorrowland_movie_poster.jpg"
+    }
+  ],
+  "page" : 1
+
+}

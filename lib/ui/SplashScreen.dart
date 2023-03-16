@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:first_app/Utility/ProjectUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -16,10 +17,33 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
 
+    checkRemember();
+
     Timer(Duration(seconds: 5), (){
       Navigator.popAndPushNamed(context, ProjectUtil.LOGIN_SCREEN_ROUTE);
     });
+
   }
+
+  void checkRemember() async{
+
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    var _remeberMe = _prefs.getBool(ProjectUtil.PREF_REMEBER_ME) ?? false;
+
+    print('**********$_remeberMe');
+
+    if(_remeberMe){
+      Timer(Duration(seconds: 5), (){
+        Navigator.popAndPushNamed(context, ProjectUtil.DASH_SCREEN_ROUTE);
+      });
+    }else{
+      Timer(Duration(seconds: 5), (){
+        Navigator.popAndPushNamed(context, ProjectUtil.LOGIN_SCREEN_ROUTE);
+      });
+    }
+
+  }
+
 
   @override
   Widget build(BuildContext context) {

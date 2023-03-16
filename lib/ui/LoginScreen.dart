@@ -182,15 +182,25 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Row(
               children: [
-                Checkbox(
-                  value: _isCheckedRememberMe,
-                  activeColor: Colors.red,
-                  focusColor: Colors.red,
-                  onChanged: (bool? value) {
-                    _actionRemeberMe(value!);
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(left: 10,top: 10),
+                  child: SizedBox(
+                    height: 24,
+                  width: 24,
+                    child: Checkbox(
+                      value: _isCheckedRememberMe,
+                      activeColor: Colors.red,
+                      focusColor: Colors.red,
+                      onChanged: (bool? value) {
+                        _actionRememberMe(value!);
+                      },
+                    ),
+                  ),
                 ),
-                Text("Remember Me")
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0,left: 7),
+                  child: Text("Remember Me"),
+                )
               ],
             ),
             Padding(
@@ -240,7 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _actionRemeberMe(bool value) {
+  _actionRememberMe(bool value) {
     _isCheckedRememberMe = value;
     SharedPreferences.getInstance().then(
       (prefs) {
@@ -248,6 +258,8 @@ class _LoginScreenState extends State<LoginScreen> {
           prefs.setBool(ProjectUtil.PREF_REMEBER_ME, value);
           prefs.setString(ProjectUtil.PREF_USER_NAME, userNameText.text);
           prefs.setString(ProjectUtil.PREF_PASSWORD, passwordText.text);
+        }else{
+          prefs.clear();
         }
       },
     );

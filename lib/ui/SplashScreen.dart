@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(Duration(seconds: 5), (){
-      Navigator.popAndPushNamed(context, ProjectUtil.SECOND_SCREEN_ROUTE);
+      Navigator.popAndPushNamed(context, ProjectUtil.LOGIN_SCREEN_ROUTE);
     });
   }
 

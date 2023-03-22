@@ -255,19 +255,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _actionRememberMe(bool value) {
     _isCheckedRememberMe = value;
-    SharedPreferences.getInstance().then(
-      (prefs) {
-        if (_isCheckedRememberMe) {
-          User user = User(userNameText.text, passwordText.text, value);
-          prefService.saveUser(user);
-          // prefs.setBool(ProjectUtil.PREF_REMEBER_ME, value);
-          // prefs.setString(ProjectUtil.PREF_USER_NAME, userNameText.text);
-          // prefs.setString(ProjectUtil.PREF_PASSWORD, passwordText.text);
-        }else{
-          prefService.clearUser();
-        }
-      },
-    );
+
+    if (_isCheckedRememberMe) {
+      User user = User(userNameText.text, passwordText.text, value);
+      prefService.saveUser(user);
+    }else{
+      prefService.clearUser();
+    }
+    // SharedPreferences.getInstance().then(
+    //   (prefs) {
+    //     if (_isCheckedRememberMe) {
+    //       User user = User(userNameText.text, passwordText.text, value);
+    //       prefService.saveUser(user);
+    //       prefs.setBool(ProjectUtil.PREF_REMEBER_ME, value);
+    //       prefs.setString(ProjectUtil.PREF_USER_NAME, userNameText.text);
+    //       prefs.setString(ProjectUtil.PREF_PASSWORD, passwordText.text);
+    //     }else{
+    //       prefService.clearUser();
+    //     }
+    //   },
+    // );
     setState(() {
       _isCheckedRememberMe = value;
     });

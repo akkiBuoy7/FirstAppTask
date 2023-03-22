@@ -32,15 +32,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
     print('**********$_remeberMe');
 
-    if(_remeberMe){
-      Timer(Duration(seconds: 5), (){
-        Navigator.popAndPushNamed(context, ProjectUtil.DASH_SCREEN_ROUTE);
-      });
-    }else{
-      Timer(Duration(seconds: 5), (){
-        Navigator.popAndPushNamed(context, ProjectUtil.LOGIN_SCREEN_ROUTE);
-      });
-    }
+    Navigator.popAndPushNamed(context, ProjectUtil.LOGIN_SCREEN_ROUTE);
+
+
+    // if(_remeberMe){
+    //   Timer(Duration(seconds: 5), (){
+    //     Navigator.popAndPushNamed(context, ProjectUtil.DASH_SCREEN_ROUTE);
+    //   });
+    // }else{
+    //   Timer(Duration(seconds: 5), (){
+    //     Navigator.popAndPushNamed(context, ProjectUtil.LOGIN_SCREEN_ROUTE);
+    //   });
+    // }
 
   }
 

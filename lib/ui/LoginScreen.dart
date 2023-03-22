@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:first_app/model/user_item.dart';
+import 'package:first_app/services/pref_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var _password = "";
   bool _isPassWordHidden = true;
   bool _isCheckedRememberMe = false;
+  var prefService = PrefService();
 
   String validateInput() {
     //final validCharacters = RegExp(r'^[a-zA-Z0-9_\-=@,\.;]+$');
@@ -255,11 +258,13 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences.getInstance().then(
       (prefs) {
         if (_isCheckedRememberMe) {
-          prefs.setBool(ProjectUtil.PREF_REMEBER_ME, value);
-          prefs.setString(ProjectUtil.PREF_USER_NAME, userNameText.text);
-          prefs.setString(ProjectUtil.PREF_PASSWORD, passwordText.text);
+          User user = User(userNameText.text, passwordText.text, value);
+          prefService.saveUser(user);
+          // prefs.setBool(ProjectUtil.PREF_REMEBER_ME, value);
+          // prefs.setString(ProjectUtil.PREF_USER_NAME, userNameText.text);
+          // prefs.setString(ProjectUtil.PREF_PASSWORD, passwordText.text);
         }else{
-          prefs.clear();
+          prefService.clearUser();
         }
       },
     );
@@ -271,18 +276,23 @@ class _LoginScreenState extends State<LoginScreen> {
   //load email and password
   void _loadUserUsernamePassword() async {
     try {
-      SharedPreferences _prefs = await SharedPreferences.getInstance();
-      var _email = _prefs.getString(ProjectUtil.PREF_USER_NAME) ?? "";
-      var _password = _prefs.getString(ProjectUtil.PREF_PASSWORD) ?? "";
-      var _remeberMe = _prefs.getBool(ProjectUtil.PREF_REMEBER_ME) ?? false;
+      User userData = await prefService.getUser();
+      var _name = userData.name??"";
+      var _password = userData.password??"";
+      var _remeberMe = userData.isRemember??false;
+
+      // SharedPreferences _prefs = await SharedPreferences.getInstance();
+      // var _email = _prefs.getString(ProjectUtil.PREF_USER_NAME) ?? "";
+      // var _password = _prefs.getString(ProjectUtil.PREF_PASSWORD) ?? "";
+      // var _remeberMe = _prefs.getBool(ProjectUtil.PREF_REMEBER_ME) ?? false;
       print(_remeberMe);
-      print(_email);
+      print(_name);
       print(_password);
       if (_remeberMe) {
         setState(() {
           _isCheckedRememberMe = true;
         });
-        userNameText.text = _email ?? "";
+        userNameText.text = _name ?? "";
         passwordText.text = _password ?? "";
       }
     } catch (e) {

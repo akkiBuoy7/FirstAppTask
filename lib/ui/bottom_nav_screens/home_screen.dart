@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:first_app/Utility/ProjectUtil.dart';
 import 'package:first_app/model/movie_items.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,21 +14,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<MovieDetailItems>? movieList = [];
   MovieItems? movieItems;
-
-  var arrayColors = [
-    Colors.grey,
-    Colors.blue,
-    Colors.black,
-    Colors.red,
-    Colors.green,
-    Colors.lightGreen,
-    Colors.yellow,
-    Colors.black,
-    Colors.red,
-    Colors.green,
-    Colors.lightGreen,
-    Colors.yellow
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -61,14 +47,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisSpacing: 12),
                   itemBuilder: (context, index) {
                     return Stack(children: [
-                      Container(
-                        color: Colors.black,
-                        child: Image.network(
-                          movieList?[index].imageUrl ?? "",
-                          fit: BoxFit.fill,
+                      InkWell(
+                        onTap: (){
+                          var nextPageData = {"data":movieList?[index]};
+                          Navigator.pushNamed(context, ProjectUtil.HOME_DETAILS_SCREEN_ROUTE, arguments: nextPageData);
+                        },
+                        child: Container(
+                          color: Colors.black,
+                          child: Image.network(
+                            movieList?[index].imageUrl ?? "",
+                            fit: BoxFit.fill,
+                          ),
+                          width: double.infinity,
+                          height: double.infinity,
                         ),
-                        width: double.infinity,
-                        height: double.infinity,
                       ),
                       Positioned(
                         bottom: 30,

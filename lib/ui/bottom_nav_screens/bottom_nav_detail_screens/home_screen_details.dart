@@ -52,7 +52,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                         var nextPageData = {"data": model?.video};
                         Navigator.pushNamed(
                           context,
-                          ProjectUtil.PLAYERS_SCREEN_ROUTE,
+                          ProjectUtil.MY_PLAYERS_SCREEN_ROUTE,
                           arguments: nextPageData
                         );
                       },

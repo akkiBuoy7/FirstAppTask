@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<MovieDetailItems>? movieList = [];
+  List<MovieDetail>? movieList = [];
   MovieItems? movieItems;
 
   @override
@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<List<MovieDetailItems>?> _readJsonData() async {
+  Future<List<MovieDetail>?> _readJsonData() async {
     final jsonData =
         await myService.rootBundle.loadString('assets/json/movies.json');
 

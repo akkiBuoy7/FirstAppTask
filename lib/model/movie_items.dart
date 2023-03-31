@@ -1,75 +1,85 @@
+// To parse this JSON data, do
+//
+//     final movieItems = movieItemsFromJson(jsonString);
+
 import 'dart:convert';
 
-/*
-  Function to return Pojo class
-  from raw json string
-   */
-MovieItems movieItemsFromJson(String str) =>
-    MovieItems.fromJson(json.decode(str));
+MovieItems movieItemsFromJson(String str) => MovieItems.fromJson(json.decode(str));
 
-/*
-  Function to return Json String
-  from pojo class object
-   */
 String movieItemsToJson(MovieItems data) => json.encode(data.toJson());
 
-// Actual response class
 class MovieItems {
   MovieItems({
     required this.movieDetails,
     required this.page,
   });
 
-  List<MovieDetailItems> movieDetails;
+  List<MovieDetail> movieDetails;
   int page;
 
-  /*
-  Function to read data of each map object from json file
-  and convert it pojo class object
-   */
   factory MovieItems.fromJson(Map<String, dynamic> json) => MovieItems(
-        movieDetails: List<MovieDetailItems>.from(
-            json["movie_details"].map((x) => MovieDetailItems.fromJson(x))),
-        page: json["page"],
-      );
+    movieDetails: List<MovieDetail>.from(json["movie_details"].map((x) => MovieDetail.fromJson(x))),
+    page: json["page"],
+  );
 
-  /*
-  Function to return Map object
-  from pojo class object
-   */
   Map<String, dynamic> toJson() => {
-        "movie_details":
-            List<dynamic>.from(movieDetails.map((x) => x.toJson())),
-        "page": page,
-      };
+    "movie_details": List<dynamic>.from(movieDetails.map((x) => x.toJson())),
+    "page": page,
+  };
 }
 
-// Each item class in the json array
-class MovieDetailItems {
-  MovieDetailItems({
+class MovieDetail {
+  MovieDetail({
     required this.movieName,
     required this.imageUrl,
+    required this.rating,
+    required this.director,
+    required this.video,
+    required this.description,
   });
 
   String movieName;
   String imageUrl;
+  int rating;
+  String director;
+  Video video;
+  String description;
 
-  /*
-  Function to read data of each map object from json file
-  and convert it pojo class object
-   */
-  factory MovieDetailItems.fromJson(Map<String, dynamic> json) =>
-      MovieDetailItems(
-        movieName: json["movie_name"],
-        imageUrl: json["image_url"],
-      );
+  factory MovieDetail.fromJson(Map<String, dynamic> json) => MovieDetail(
+    movieName: json["movie_name"],
+    imageUrl: json["image_url"],
+    rating: json["rating"],
+    director: json["director"],
+    video: Video.fromJson(json["video"]),
+    description: json["description"],
+  );
 
-  /*
-  Function to return Map object
-  from pojo class object
-   */
   Map<String, dynamic> toJson() => {
-        "movie_name": movieName,
-        "image_url": imageUrl,
-      };
+    "movie_name": movieName,
+    "image_url": imageUrl,
+    "rating": rating,
+    "director": director,
+    "video": video.toJson(),
+    "description": description,
+  };
+}
+
+class Video {
+  Video({
+    required this.url,
+    required this.thumbnail,
+  });
+
+  String url;
+  String thumbnail;
+
+  factory Video.fromJson(Map<String, dynamic> json) => Video(
+    url: json["url"],
+    thumbnail: json["thumbnail"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "url": url,
+    "thumbnail": thumbnail,
+  };
 }

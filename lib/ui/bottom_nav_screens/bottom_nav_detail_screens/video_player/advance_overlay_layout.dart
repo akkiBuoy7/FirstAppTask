@@ -47,27 +47,11 @@ class _AdvanceOverlayWidgetState extends State<AdvanceOverlayWidget> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: GestureDetector(
-                    onTap: () {
-                      backward2Sec();
-                    },
-                    child: Icon(
-                      Icons.replay_5,
-                      color: Colors.white,
-                    )),
+                child: buildRewind(),
               ),
               buildPlay(),
               Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: GestureDetector(
-                    onTap: () {
-                      forward2Sec();
-                    },
-                    child: Icon(
-                      Icons.forward_5,
-                      color: Colors.white,
-                    )),
-              )
+                  padding: const EdgeInsets.all(10.0), child: buildForward())
             ],
           ),
           Positioned(
@@ -228,6 +212,28 @@ class _AdvanceOverlayWidgetState extends State<AdvanceOverlayWidget> {
         ],
       ),
     );
+  }
+
+  Widget buildRewind() {
+    return GestureDetector(
+        onTap: () {
+          backward2Sec();
+        },
+        child: Icon(
+          Icons.replay_5,
+          color: Colors.white,
+        ));
+  }
+
+  Widget buildForward() {
+    return GestureDetector(
+        onTap: () {
+          forward2Sec();
+        },
+        child: Icon(
+          Icons.forward_5,
+          color: Colors.white,
+        ));
   }
 
   Future goToPosition(

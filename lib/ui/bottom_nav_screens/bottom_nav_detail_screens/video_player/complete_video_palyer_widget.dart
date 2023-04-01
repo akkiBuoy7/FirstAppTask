@@ -18,28 +18,16 @@ class CompleteVideoPlayerWidget extends StatefulWidget {
 }
 
 class _CompleteVideoPlayerWidgetState extends State<CompleteVideoPlayerWidget> {
+
+  // orientation of the player
   late Orientation? target;
 
   @override
   void initState() {
     super.initState();
 
-    NativeDeviceOrientationCommunicator()
-        .onOrientationChanged(useSensor: true)
-        .listen((event) {
-      final isPotrait = event == NativeDeviceOrientation.portraitUp;
-      final isLandscape = event == NativeDeviceOrientation.landscapeRight ||
-          event == NativeDeviceOrientation.landscapeLeft;
+    setOrientationWhenRotated();
 
-      final isTargetPotrait = target == Orientation.portrait;
-      final isTargetLandscape = target == Orientation.landscape;
-
-      if (isPotrait && isTargetPotrait || isLandscape && isTargetLandscape) {
-        target = null;
-
-        SystemChrome.setPreferredOrientations(DeviceOrientation.values);
-      }
-    });
   }
 
   @override
@@ -50,8 +38,41 @@ class _CompleteVideoPlayerWidgetState extends State<CompleteVideoPlayerWidget> {
     super.dispose();
   }
 
+  /*
+  Method to reset device orientation when exiting
+   */
   Future setAllOrientation() async {
     await SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+  }
+
+  /*
+  Method to setup orientation when device is rotated
+   */
+  void setOrientationWhenRotated(){
+
+    NativeDeviceOrientationCommunicator()
+        .onOrientationChanged(useSensor: true)
+        .listen((event) {
+
+
+      final isPotrait = event == NativeDeviceOrientation.portraitUp;
+      final isLandscape = event == NativeDeviceOrientation.landscapeRight ||
+          event == NativeDeviceOrientation.landscapeLeft;
+
+      final isTargetPotrait = target == Orientation.portrait;
+      final isTargetLandscape = target == Orientation.landscape;
+
+      /*
+      If player and device both in potrait reset the device orientation
+      or
+      If player and device both in landscape reset the device orientation
+       */
+      if (isPotrait && isTargetPotrait || isLandscape && isTargetLandscape) {
+        target = null;
+
+        SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+      }
+    });
   }
 
   @override
@@ -62,7 +83,7 @@ class _CompleteVideoPlayerWidgetState extends State<CompleteVideoPlayerWidget> {
             alignment: Alignment.center,
             child: buildVideo(),
           )
-        : Container(
+        : Container( // if url not received show progress indicator
             height: 200,
             child: Center(
               child: CircularProgressIndicator(
@@ -72,44 +93,56 @@ class _CompleteVideoPlayerWidgetState extends State<CompleteVideoPlayerWidget> {
           );
   }
 
+  /*
+  OrientationBuilder : Provides the device orientation object
+   */
+
   Widget buildVideo() => OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
           var isPotrait = orientation == Orientation.portrait;
 
-          print("############ispotrait ${isPotrait}");
-
           return Stack(
+            // if in landscape then expand to acquire whole width
             fit: isPotrait ? StackFit.loose : StackFit.expand,
             children: [
               buildVideoPlayer(),
               Positioned.fill(
+                /*
+                AdvanceOverlayWidget : place the overlay screen on top of
+                video player
+                onClickedFullScreen:
+                Call back method when fullscreen is clicked
+                so that video player can be rotated
+                 */
                   child: AdvanceOverlayWidget(
                       videoPlayerController: widget.videoPlayerController,
                       onClickedFullScreen: () {
-                        target = isPotrait
-                            ? Orientation.landscape
-                            : Orientation.portrait;
 
                         _changeOrientation(isPotrait);
 
-                        // if (isPotrait) {
-                        //
-                        //   AutoOrientation.landscapeRightMode();
-                        // } else {
-                        //   AutoOrientation.portraitUpMode();
-                        // }
                       }))
             ],
           );
         },
       );
 
+  /*
+  Main method to show the video player acc to aspect ratio of the video
+   */
   Widget buildVideoPlayer() => AspectRatio(
       aspectRatio: widget.videoPlayerController.value.aspectRatio,
       child: VideoPlayer(widget.videoPlayerController));
 
   void _changeOrientation(bool isPotrait){
+
+    /*
+     if videoPlayer is in Portrait then on clicking
+     change to landscape
+     and vice versa
+     */
+
     if (isPotrait) {
+      // remove overlay status bar when in landscape
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
       AutoOrientation.landscapeRightMode();
     } else {

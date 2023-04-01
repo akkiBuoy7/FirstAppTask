@@ -3,7 +3,7 @@ import 'package:first_app/ui/DashScreen.dart';
 import 'package:first_app/ui/LoginScreen.dart';
 import 'package:first_app/ui/SplashScreen.dart';
 import 'package:first_app/ui/bottom_nav_screens/bottom_nav_detail_screens/home_screen_details.dart';
-import 'package:first_app/ui/bottom_nav_screens/bottom_nav_detail_screens/my_player_screen.dart';
+import 'package:first_app/ui/bottom_nav_screens/bottom_nav_detail_screens/advance_player_screen.dart';
 import 'package:first_app/ui/bottom_nav_screens/bottom_nav_detail_screens/player_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ProjectUtil.DASH_SCREEN_ROUTE: (context) => DashScreen(),
         ProjectUtil.HOME_DETAILS_SCREEN_ROUTE: (context) => HomeDetailsScreen(),
         ProjectUtil.PLAYERS_SCREEN_ROUTE: (context) => PlayerScreen(),
-        ProjectUtil.MY_PLAYERS_SCREEN_ROUTE: (context) => MyPlayerScreen(),
+        //ProjectUtil.ADVANCE_PLAYERS_SCREEN_ROUTE: (context) => AdvancePlayerScreen(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

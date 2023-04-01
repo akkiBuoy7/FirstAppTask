@@ -1,3 +1,4 @@
+import 'package:first_app/ui/bottom_nav_screens/bottom_nav_detail_screens/advance_player_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Utility/ProjectUtil.dart';
@@ -50,11 +51,19 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                               side: BorderSide(width:10, color: Colors.red))),
                       onPressed: () {
                         var nextPageData = {"data": model?.video};
-                        Navigator.pushNamed(
+
+                        Navigator.push(
                           context,
-                          ProjectUtil.MY_PLAYERS_SCREEN_ROUTE,
-                          arguments: nextPageData
+                          MaterialPageRoute(builder: (context) =>  AdvancePlayerScreen(
+                            model?.video
+                          )),
                         );
+
+                        // Navigator.pushNamed(
+                        //   context,
+                        //   ProjectUtil.ADVANCE_PLAYERS_SCREEN_ROUTE,
+                        //   arguments: nextPageData
+                        // );
                       },
                       child: Center(
                         child: Text(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class PlayerScreen extends StatefulWidget {
+
   @override
   State<PlayerScreen> createState() => _PlayerScreenState();
 }
@@ -12,14 +13,29 @@ class _PlayerScreenState extends State<PlayerScreen> {
   Video? videoModel;
 
   late VideoPlayerController _videoPlayerController;
-  String url =
-      "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4";
+
+  //String url = "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4";
+
+  String url = "";
 
   void _playVideo() {
+
+    String url = _getVideoUrl();
+
     _videoPlayerController = VideoPlayerController.network(url)
       ..addListener(() => setState(() {}))
       ..setLooping(true)
       ..initialize().then((value) => _videoPlayerController.play());
+  }
+
+  String _getVideoUrl(){
+
+    final routeArgs1 = ModalRoute.of(context as BuildContext)
+        ?.settings
+        .arguments as Map<String, MovieDetail?>;
+    url = routeArgs1['data']?.video.url??"";
+
+    return url;
   }
 
   String _videoDuration(Duration duration) {

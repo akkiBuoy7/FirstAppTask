@@ -1,3 +1,4 @@
+import 'package:first_app/ui/bottom_nav_screens/bottom_nav_detail_screens/video_factory/video_factory_method.dart';
 import 'package:first_app/ui/bottom_nav_screens/bottom_nav_detail_screens/video_player/complete_video_palyer_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:video_player/video_player.dart';
@@ -11,9 +12,7 @@ Main Player Screen :
  */
 
 class AdvancePlayerScreen extends StatefulWidget {
-
   Video? videoModel;
-
 
   AdvancePlayerScreen(this.videoModel);
 
@@ -22,39 +21,33 @@ class AdvancePlayerScreen extends StatefulWidget {
 }
 
 class _AdvancePlayerScreenState extends State<AdvancePlayerScreen> {
-
   late VideoPlayerController _videoPlayerController;
   String url = "";
-
-
 
   // String url =
   //     "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4";
 
   void _playVideo() {
-
     //url = _getVideoUrl();
 
-    _videoPlayerController = VideoPlayerController.network(widget.videoModel?.url??"")
+    _videoPlayerController = VideoPlayerController.network(
+        widget.videoModel?.url ?? "")
       ..addListener(() => setState(() {})) // on any click listen set the state
       // ..setLooping(true)
       ..initialize().then((value) => _videoPlayerController.play());
   }
 
-  String _getVideoUrl(){
-
-
+  String _getVideoUrl() {
     final routeArgs1 = ModalRoute.of(context as BuildContext)
         ?.settings
         .arguments as Map<String, MovieDetail?>;
-    url = routeArgs1['data']?.video.url??"";
+    url = routeArgs1['data']?.video.url ?? "";
 
     return url;
   }
 
   @override
   void initState() {
-
     super.initState();
     _playVideo();
   }
@@ -69,6 +62,9 @@ class _AdvancePlayerScreenState extends State<AdvancePlayerScreen> {
   Widget build(BuildContext context) {
     //return VideoPlayerOrientationWidget(videoPlayerController: _videoPlayerController);
     // return VideoPlayerWidget(videoPlayerController: _videoPlayerController);
-    return CompleteVideoPlayerWidget(videoPlayerController: _videoPlayerController);
+    //return CompleteVideoPlayerWidget(videoPlayerController: _videoPlayerController);
+    return VideoPlayerFactory(
+            VideoPlayerType.ADVANCE_VIDEO_PLAYER, _videoPlayerController)
+        .build(context);
   }
 }

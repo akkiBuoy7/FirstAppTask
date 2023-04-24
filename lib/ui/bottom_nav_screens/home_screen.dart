@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:first_app/Utility/ProjectUtil.dart';
+import 'package:first_app/Utility/project_util.dart';
 import 'package:first_app/bloc/home_movies_bloc.dart';
 import 'package:first_app/model/movie_items.dart';
 import 'package:first_app/provider/NetworkProvider.dart';
@@ -17,13 +17,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<MovieDetail>? movieList = [];
-  final HomeMoviesBloc _moviesBloc = HomeMoviesBloc();
+  //final HomeMoviesBloc _moviesBloc = HomeMoviesBloc();
 
   @override
   void initState() {
-    _moviesBloc.add(GetMoviesList());
+    //_moviesBloc.add(GetMoviesList());
     print("########### Event Added ############");
     super.initState();
+    context.read<HomeMoviesBloc>().add(GetMoviesList());
   }
 
   @override
@@ -38,71 +39,80 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text("Home", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
       ),
-      body: Container(
-        child: BlocProvider(
-              create: (_) => _moviesBloc,
-              child: BlocListener<HomeMoviesBloc,HomeMoviesState>(
-                listener: (context, state) {
-                  if (state is HomeMoviesErrorState) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.message!),
-                      ),
-                    );
-                  } else if (state is HomeMoviesLoadedState) {
-                    print("######### LISTENER LOADED STATE ##########");
-                  }
-                },
-                child: BlocBuilder<HomeMoviesBloc, HomeMoviesState>(
-                  builder: (context, state) {
-                    if (state is HomeMoviesInitialState) {
-                      print("######### INITIAL STATE ##########");
-                      return Container();
-                    } else if (state is HomeMoviesLoadingState) {
-                      print("######### LOADING STATE ##########");
-                      return _buildLoading();
-                    } else if (state is HomeMoviesLoadedState) {
-                      print("######### LOADED STATE ##########");
-                      return buildGridViewUi(context, state.movieItems);
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
-              ),
-    ),
-      ));
+      body:
+      usingBlocConsumer());
   }
 
-  BlocConsumer usingBlocConsumer() {
-    return BlocConsumer<HomeMoviesBloc, HomeMoviesState>(
-      listener: (context, state) {
-        if (state is HomeMoviesErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message!),
-            ),
-          );
-        } else if (state is HomeMoviesLoadedState) {
-          print("######### LISTENER LOADED STATE ##########");
-        }
-      },
-      builder: (context, state) {
-        if (state is HomeMoviesInitialState) {
-          print("######### INITIAL STATE ##########");
-          return _buildLoading();
-        } else if (state is HomeMoviesLoadingState) {
-          print("######### LOADING STATE ##########");
-          return _buildLoading();
-        } else if (state is HomeMoviesLoadedState) {
-          print("######### LOADED STATE ##########");
-          return buildGridViewUi(context, state.movieItems);
-        } else {
-          return Container();
-        }
-      },
+  Widget _usingProvider(){
+    return Container(
+      child: BlocProvider(
+        create: (_) => context.read<HomeMoviesBloc>(),
+        child: BlocListener<HomeMoviesBloc,HomeMoviesState>(
+          listener: (context, state) {
+            if (state is HomeMoviesErrorState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message!),
+                ),
+              );
+            } else if (state is HomeMoviesLoadedState) {
+              print("######### LISTENER LOADED STATE ##########");
+            }
+          },
+          child: BlocBuilder<HomeMoviesBloc, HomeMoviesState>(
+            builder: (context, state) {
+              if (state is HomeMoviesInitialState) {
+                print("######### INITIAL STATE ##########");
+                return Container();
+              } else if (state is HomeMoviesLoadingState) {
+                print("######### LOADING STATE ##########");
+                return _buildLoading();
+              } else if (state is HomeMoviesLoadedState) {
+                print("######### LOADED STATE ##########");
+                return buildGridViewUi(context, state.movieItems);
+              } else {
+                return Container();
+              }
+            },
+          ),
+        ),
+      ),
     );
   }
+
+  // ******** Not Working NEED TO FIX **********
+  Widget usingBlocConsumer() {
+    return Container(
+      child: BlocConsumer<HomeMoviesBloc, HomeMoviesState>(
+        listener: (context, state) {
+          if (state is HomeMoviesErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+              ),
+            );
+          } else if (state is HomeMoviesLoadedState) {
+            print("######### LISTENER LOADED STATE ##########");
+          }
+        },
+        builder: (context, state) {
+          if (state is HomeMoviesInitialState) {
+            print("######### INITIAL STATE ##########");
+            return _buildLoading();
+          } else if (state is HomeMoviesLoadingState) {
+            print("######### LOADING STATE ##########");
+            return _buildLoading();
+          } else if (state is HomeMoviesLoadedState) {
+            print("######### LOADED STATE ##########");
+            return buildGridViewUi(context, state.movieItems);
+          } else {
+            return Container();
+          }
+        },
+      ),
+    );
+  }
+// ******** Not Working NEED TO FIX **********
 
   Widget buildGridViewUi(BuildContext context, MovieItems dataModel) {
     return GridView.builder(
@@ -117,10 +127,15 @@ class _HomeScreenState extends State<HomeScreen> {
         return Stack(children: [
           InkWell(
             onTap: () {
-              var nextPageData = {"data": dataModel.movieDetails[index]};
+              // var nextPageData = {"data": dataModel.movieDetails[index]};
+              // Navigator.pushNamed(
+              //     context, ProjectUtil.HOME_DETAILS_SCREEN_ROUTE,
+              //     arguments: nextPageData);
+
               Navigator.pushNamed(
                   context, ProjectUtil.HOME_DETAILS_SCREEN_ROUTE,
-                  arguments: nextPageData);
+                  arguments: dataModel.movieDetails[index]);
+
             },
             child: Container(
               color: Colors.black,

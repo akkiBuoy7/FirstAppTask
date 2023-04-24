@@ -6,17 +6,16 @@ import '../model/movie_items.dart';
 
 class NetworkProvider {
   Client client = Client();
-  final _baseUrl = "https://211f5a56-03b1-4286-96f0-49957cf39d53.mock.pstmn.io/movies";
 
-  Future<MovieItems> fetchMovieList() async {
-    print("entered");
+  Future<String> fetchMovieList(String _url) async {
+
     final response =
-        await client.get(Uri.parse("$_baseUrl"));
+        await client.get(Uri.parse("$_url"));
     print(response.body.toString());
     if (response.statusCode == 200) {
       print("Response**************** \n ${response.body.toString()}");
       // If the call to the server was successful, parse the JSON
-      return MovieItems.fromJson(json.decode(response.body));
+      return response.body.toString();
     } else {
       // If that call was not successful, throw an error.
       throw Exception('Failed to load post');

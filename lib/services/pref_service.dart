@@ -1,7 +1,7 @@
 import 'package:first_app/model/user_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Utility/ProjectUtil.dart';
+import '../Utility/project_util.dart';
 
 class PrefService {
   Future saveUser(User user) async {

@@ -11,10 +11,10 @@ part 'home_movies_event.dart';
 part 'home_movies_state.dart';
 
 class HomeMoviesBloc extends Bloc<HomeMoviesEvent, HomeMoviesState> {
-  final HomeRepository _homeRepository = HomeRepository();
+  final HomeRepository _homeRepository;
   late MovieItems movieItem;
 
-  HomeMoviesBloc() : super(HomeMoviesInitialState()) {
+  HomeMoviesBloc(this._homeRepository) : super(HomeMoviesInitialState()) {
     on<GetMoviesList>((event, emit) async {
       try {
         emit(HomeMoviesLoadingState());

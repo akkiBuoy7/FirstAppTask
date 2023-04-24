@@ -1,0 +1,46 @@
+import 'package:first_app/bloc/home_movies_bloc.dart';
+import 'package:first_app/repository/home_repository.dart';
+import 'package:first_app/ui/DashScreen.dart';
+import 'package:first_app/ui/LoginScreen.dart';
+import 'package:first_app/ui/bottom_nav_screens/home_screen.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../Utility/project_util.dart';
+import '../model/movie_items.dart';
+import '../ui/SplashScreen.dart';
+import '../ui/bottom_nav_screens/bottom_nav_detail_screens/home_screen_details.dart';
+
+class AppNavigation {
+
+  Route? onGenerateRoute(RouteSettings routeSettings) {
+    switch (routeSettings.name) {
+      case ProjectUtil.SPLASH_SCREEN_ROUTE:
+        return MaterialPageRoute(
+            builder: (_) => SplashScreen());
+      case ProjectUtil.LOGIN_SCREEN_ROUTE:
+        return MaterialPageRoute(
+            builder: (_) => LoginScreen());
+      case ProjectUtil.DASH_SCREEN_ROUTE:
+        return  MaterialPageRoute(
+            builder: (_) => RepositoryProvider(
+              create: (context) => HomeRepository(),
+              child: BlocProvider(
+                  create: (context) => HomeMoviesBloc(
+                    context.read<HomeRepository>(),
+                  ),
+                  child: DashScreen()
+              ),
+            ));
+      case ProjectUtil.HOME_SCREEN_ROUTE:
+        return MaterialPageRoute(
+            builder: (_) => HomeScreen());
+      case ProjectUtil.HOME_DETAILS_SCREEN_ROUTE:
+        MovieDetail movieDetail = routeSettings.arguments as MovieDetail;
+        return MaterialPageRoute(
+            builder: (_) => HomeDetailsScreen(movieDetail));
+      default:
+        return null;
+    }
+  }
+}

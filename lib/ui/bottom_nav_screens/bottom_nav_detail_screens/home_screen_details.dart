@@ -1,10 +1,14 @@
 import 'package:first_app/ui/bottom_nav_screens/bottom_nav_detail_screens/advance_player_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../Utility/ProjectUtil.dart';
+import '../../../Utility/project_util.dart';
 import '../../../model/movie_items.dart';
 
 class HomeDetailsScreen extends StatefulWidget {
+  MovieDetail? model;
+
+  HomeDetailsScreen(this.model);
+
   @override
   State<HomeDetailsScreen> createState() => _HomeDetailsScreenState();
 }
@@ -12,17 +16,17 @@ class HomeDetailsScreen extends StatefulWidget {
 class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    MovieDetail? model;
-    final routeArgs1 = ModalRoute.of(context as BuildContext)
-        ?.settings
-        .arguments as Map<String, MovieDetail?>;
-    model = routeArgs1['data'];
+    // MovieDetail? model;
+    // final routeArgs1 = ModalRoute.of(context as BuildContext)
+    //     ?.settings
+    //     .arguments as Map<String, MovieDetail?>;
+    // model = routeArgs1['data'];
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.black,
-        title: Text("${model?.movieName}"),
+        title: Text("${widget.model?.movieName}"),
       ),
       body: Scaffold(
         backgroundColor: Colors.black,
@@ -35,7 +39,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                       fit: BoxFit.cover,
                       colorFilter: ColorFilter.mode(
                           Colors.black.withOpacity(0.5), BlendMode.luminosity),
-                      image: NetworkImage(model?.imageUrl ?? ""))),
+                      image: NetworkImage(widget.model?.imageUrl ?? ""))),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -50,12 +54,12 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                               borderRadius: BorderRadius.circular(7),
                               side: BorderSide(width:10, color: Colors.red))),
                       onPressed: () {
-                        var nextPageData = {"data": model?.video};
+                        var nextPageData = {"data": widget.model?.video};
 
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) =>  AdvancePlayerScreen(
-                            model?.video
+                              widget.model?.video
                           )),
                         );
 

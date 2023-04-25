@@ -1,13 +1,12 @@
-import 'dart:convert';
+import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:first_app/Utility/project_util.dart';
 import 'package:first_app/bloc/home_movies_bloc.dart';
+import 'package:first_app/bloc/internet_bloc/internet_bloc.dart';
 import 'package:first_app/model/movie_items.dart';
-import 'package:first_app/provider/NetworkProvider.dart';
 import 'package:first_app/repository/home_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' as myService;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,14 +16,32 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<MovieDetail>? movieList = [];
+  StreamSubscription? _connectivityStreamSubscription;
+  late bool isConnected;
+
   //final HomeMoviesBloc _moviesBloc = HomeMoviesBloc();
+
+  observeNetwork() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      context.read<InternetBloc>().add(InternetLostEvent());
+      print("######## INTERNET LOST EVENT FIRED");
+    } else if (connectivityResult == ConnectivityResult.mobile) {
+      context.read<InternetBloc>().add(InternetConnectedEvent());
+      print("######## INTERNET CONNECTED EVENT FIRED");
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      context.read<InternetBloc>().add(InternetConnectedEvent());
+      print("######## INTERNET CONNECTED EVENT FIRED");
+    }
+  }
 
   @override
   void initState() {
     //_moviesBloc.add(GetMoviesList());
-    print("########### Event Added ############");
+    //context.read<HomeMoviesBloc>().add(GetMoviesList());
+
+    context.read<InternetBloc>().getConnectivity();
     super.initState();
-    context.read<HomeMoviesBloc>().add(GetMoviesList());
   }
 
   @override
@@ -32,22 +49,22 @@ class _HomeScreenState extends State<HomeScreen> {
     //_readJsonData();
 
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        centerTitle: true,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
-        title: Text("Home", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
-      ),
-      body:
-      usingBlocConsumer());
+        appBar: AppBar(
+          centerTitle: true,
+          leading:
+              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+          title: Text("Home", style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.black,
+        ),
+        body: _usingMultiBlocListener());
   }
 
-  Widget _usingProvider(){
+  Widget _usingProvider() {
     return Container(
       child: BlocProvider(
         create: (_) => context.read<HomeMoviesBloc>(),
-        child: BlocListener<HomeMoviesBloc,HomeMoviesState>(
+        child: BlocListener<HomeMoviesBloc, HomeMoviesState>(
           listener: (context, state) {
             if (state is HomeMoviesErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -80,7 +97,57 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ******** Not Working NEED TO FIX **********
+  Widget _usingMultiBlocListener() {
+    return Container(
+      child: MultiBlocListener(
+          listeners: [
+            BlocListener<InternetBloc, InternetState>(
+              listener: (context, state) {
+                print("######## InternetState STATE RECEIVED");
+                if (state is InternetConnectedState) {
+                  print("######## INTERNET CONNECTED STATE RECEIVED");
+                  context.read<HomeMoviesBloc>().add(GetMoviesList());
+                } else if (state is InternetLostState) {
+                  print("######## INTERNET LOST STATE RECEIVED");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("No internet"),
+                    ),
+                  );
+                }
+              },
+            ),
+            BlocListener<HomeMoviesBloc, HomeMoviesState>(
+                listener: (context, state) {
+              print("######## HomeMoviesState STATE RECEIVED");
+              if (state is HomeMoviesErrorState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                  ),
+                );
+              }
+            })
+          ],
+          child: BlocBuilder<HomeMoviesBloc, HomeMoviesState>(
+            builder: (context, state) {
+              if (state is HomeMoviesInitialState) {
+                print("######### INITIAL STATE ##########");
+                return Container();
+              } else if (state is HomeMoviesLoadingState) {
+                print("######### LOADING STATE ##########");
+                return _buildLoading();
+              } else if (state is HomeMoviesLoadedState) {
+                print("######### LOADED STATE ##########");
+                return buildGridViewUi(context, state.movieItems);
+              } else {
+                return Container();
+              }
+            },
+          )),
+    );
+  }
+
   Widget usingBlocConsumer() {
     return Container(
       child: BlocConsumer<HomeMoviesBloc, HomeMoviesState>(
@@ -91,8 +158,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 content: Text(state.message),
               ),
             );
-          } else if (state is HomeMoviesLoadedState) {
-            print("######### LISTENER LOADED STATE ##########");
           }
         },
         builder: (context, state) {
@@ -112,7 +177,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-// ******** Not Working NEED TO FIX **********
 
   Widget buildGridViewUi(BuildContext context, MovieItems dataModel) {
     return GridView.builder(
@@ -135,7 +199,6 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pushNamed(
                   context, ProjectUtil.HOME_DETAILS_SCREEN_ROUTE,
                   arguments: dataModel.movieDetails[index]);
-
             },
             child: Container(
               color: Colors.black,
@@ -251,4 +314,5 @@ class _HomeScreenState extends State<HomeScreen> {
 //   movieList = movieItems?.movieDetails;
 //   return movieList;
 // }
+
 }

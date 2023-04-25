@@ -15,6 +15,12 @@ class HomeMoviesBloc extends Bloc<HomeMoviesEvent, HomeMoviesState> {
   late MovieItems movieItem;
 
   HomeMoviesBloc(this._homeRepository) : super(HomeMoviesInitialState()) {
+
+    on<GetMoviesLoadingEvent>((event, emit){
+      emit(HomeMoviesInitialState());
+    });
+
+
     on<GetMoviesList>((event, emit) async {
       try {
         emit(HomeMoviesLoadingState());

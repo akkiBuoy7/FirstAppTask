@@ -73,19 +73,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             } else if (state is HomeMoviesLoadedState) {
-              print("######### LISTENER LOADED STATE ##########");
             }
           },
           child: BlocBuilder<HomeMoviesBloc, HomeMoviesState>(
             builder: (context, state) {
               if (state is HomeMoviesInitialState) {
-                print("######### INITIAL STATE ##########");
                 return Container();
               } else if (state is HomeMoviesLoadingState) {
-                print("######### LOADING STATE ##########");
                 return _buildLoading();
               } else if (state is HomeMoviesLoadedState) {
-                print("######### LOADED STATE ##########");
                 return buildGridViewUi(context, state.movieItems);
               } else {
                 return Container();
@@ -103,12 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
           listeners: [
             BlocListener<InternetBloc, InternetState>(
               listener: (context, state) {
-                print("######## InternetState STATE RECEIVED");
                 if (state is InternetConnectedState) {
-                  print("######## INTERNET CONNECTED STATE RECEIVED");
                   context.read<HomeMoviesBloc>().add(GetMoviesList());
                 } else if (state is InternetLostState) {
-                  print("######## INTERNET LOST STATE RECEIVED");
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text("No internet"),
@@ -119,7 +112,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BlocListener<HomeMoviesBloc, HomeMoviesState>(
                 listener: (context, state) {
-              print("######## HomeMoviesState STATE RECEIVED");
               if (state is HomeMoviesErrorState) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -132,13 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: BlocBuilder<HomeMoviesBloc, HomeMoviesState>(
             builder: (context, state) {
               if (state is HomeMoviesInitialState) {
-                print("######### INITIAL STATE ##########");
                 return Container();
               } else if (state is HomeMoviesLoadingState) {
-                print("######### LOADING STATE ##########");
                 return _buildLoading();
               } else if (state is HomeMoviesLoadedState) {
-                print("######### LOADED STATE ##########");
                 return buildGridViewUi(context, state.movieItems);
               } else {
                 return Container();
@@ -162,13 +151,10 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         builder: (context, state) {
           if (state is HomeMoviesInitialState) {
-            print("######### INITIAL STATE ##########");
             return _buildLoading();
           } else if (state is HomeMoviesLoadingState) {
-            print("######### LOADING STATE ##########");
             return _buildLoading();
           } else if (state is HomeMoviesLoadedState) {
-            print("######### LOADED STATE ##########");
             return buildGridViewUi(context, state.movieItems);
           } else {
             return Container();

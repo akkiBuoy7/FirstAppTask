@@ -25,7 +25,7 @@ class HomeMoviesBloc extends Bloc<HomeMoviesEvent, HomeMoviesState> {
       try {
         emit(HomeMoviesLoadingState());
         movieItem = await _homeRepository.fetchAllMovies();
-        print("######### STATE Loaded ${movieItem.movieDetails.length}##########");
+        // print("######### STATE Loaded ${movieItem.movieDetails.length}##########");
         emit(HomeMoviesLoadedState(movieItem));
       } catch (e) {
         emit(HomeMoviesErrorState("CATCHED ERROR >>>>${e.toString()}"));

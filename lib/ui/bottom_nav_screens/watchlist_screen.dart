@@ -89,7 +89,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
 
     //print("tvGuideItemList LENGTH ########### ${tvGuideItemList.length}");
 
-    return ExpansionPanelList(
+    return ExpansionPanelList.radio(
       expansionCallback: (index, isExpanded) {
         setState(() {
           print("EXPANSION INDEX ${indexMain}");
@@ -98,7 +98,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
       },
       animationDuration: Duration(milliseconds: 1000),
       children: [
-        ExpansionPanel(
+        ExpansionPanelRadio(
           canTapOnHeader: true,
             headerBuilder: (BuildContext context, bool isExpanded) {
               return ListTile(
@@ -108,7 +108,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             body: ListTile(
               title: Text(tvGuideItemList[indexMain].description!),
             ),
-            isExpanded: tvGuideItemList[indexMain].isExpanded)
+          value: Key(tvGuideItemList[indexMain].movieName.toString()),)
       ],
     );
   }

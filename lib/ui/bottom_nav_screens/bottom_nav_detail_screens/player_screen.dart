@@ -73,7 +73,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
           title: Text("playing"),
           centerTitle: true,
         ),
-        body: Column(
+        body:
+        Column(
           children: [
             Container(
               color: Colors.blue,
@@ -146,6 +147,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   color: Colors.white,
                 ))
           ],
-        ));
+        )
+    );
   }
 }

@@ -3,6 +3,9 @@ import 'package:first_app/model/tv_guide_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/internet_bloc/internet_bloc.dart';
+import 'package:video_player/video_player.dart';
+
+import 'bottom_nav_detail_screens/video_factory/video_factory_method.dart';
 
 class WatchlistScreen extends StatefulWidget {
   @override
@@ -11,10 +14,15 @@ class WatchlistScreen extends StatefulWidget {
 
 class _WatchlistScreenState extends State<WatchlistScreen> {
   List<TvGuideDetails> tvGuideItemList = [];
-  int selectedTile = -1;
+  int _selectedTilePrev = -1;
+  bool clickExpanded=false;
+  late VideoPlayerController videoPlayerController;
+  late Future<void> videoPlayerFuture;
+
   @override
   void initState() {
     context.read<InternetBloc>().getConnectivity();
+//    initializeVideo();
     super.initState();
   }
 
@@ -77,9 +85,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   Widget _buildListViewUi(
       BuildContext context,) {
     return ListView.builder(
-      key: Key(selectedTile.toString()),
+      key: Key(_selectedTilePrev.toString()),
       itemBuilder: (context, index) {
-        return _buildListContainer(index);
+        return _buildCustomContainer(index);
       },
       itemCount: tvGuideItemList.length,
     );
@@ -112,4 +120,63 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
       ],
     );
   }
+
+  Widget _buildCustomContainer(int index){
+    return Column(
+      children: [
+        InkWell(
+          onTap: (){
+            setState(() {
+              tvGuideItemList[index].isExpanded = !tvGuideItemList[index].isExpanded;
+              if(_selectedTilePrev!=-1 && _selectedTilePrev!=index){
+                tvGuideItemList[_selectedTilePrev].isExpanded = !tvGuideItemList[_selectedTilePrev].isExpanded;
+              }
+            });
+            _selectedTilePrev = index;
+          },
+          child: Container(
+            height: 50,
+            color: Colors.grey,
+            child: Align(child: Text(tvGuideItemList[index].movieName!),
+            alignment: Alignment.centerLeft,),
+          ),
+        ),
+        Visibility(
+          visible: tvGuideItemList[index].isExpanded,
+          child:
+          _buildDummyContainer(index),
+        )
+      ],
+    );
+  }
+
+  Widget _buildDummyContainer(int index){
+    return Container(
+      child: Text(tvGuideItemList[index].description!),
+    );
+  }
+
+  // Widget _buildVideoPlayer(){
+  //   return  FutureBuilder(
+  //     future: videoPlayerFuture,
+  //     builder: (context, snapshot) {
+  //       if (snapshot.connectionState == ConnectionState.done) {
+  //         return AspectRatio(
+  //           aspectRatio: videoPlayerController.value.aspectRatio,
+  //           child: VideoPlayer(videoPlayerController),
+  //         );
+  //       } else {
+  //         return Center(child: CircularProgressIndicator());
+  //       }
+  //     },
+  //   );
+  // }
+
+  // void initializeVideo(){
+  //   videoPlayerController = VideoPlayerController.network(
+  //       'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4');
+  //   videoPlayerFuture = videoPlayerController.initialize();
+  //   videoPlayerController.setLooping(true);
+  // }
+
 }

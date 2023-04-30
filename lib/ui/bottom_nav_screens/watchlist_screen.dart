@@ -15,14 +15,19 @@ class WatchlistScreen extends StatefulWidget {
 class _WatchlistScreenState extends State<WatchlistScreen> {
   List<TvGuideDetails> tvGuideItemList = [];
   int _selectedTilePrev = -1;
-  bool clickExpanded=false;
+  bool clickExpanded = false;
   late VideoPlayerController videoPlayerController;
   late Future<void> videoPlayerFuture;
 
   @override
   void initState() {
     context.read<InternetBloc>().getConnectivity();
-//    initializeVideo();
+    videoPlayerController = VideoPlayerController.network(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
     super.initState();
   }
 
@@ -71,7 +76,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                 return _buildLoading();
               } else if (state is TvGuideLoadedState) {
                 tvGuideItemList = state.tvGuideItemList;
-                return _buildListViewUi(context,);
+                return _buildListViewUi(
+                  context,
+                );
               } else {
                 return Container();
               }
@@ -83,7 +90,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   Widget _buildLoading() => Center(child: CircularProgressIndicator());
 
   Widget _buildListViewUi(
-      BuildContext context,) {
+    BuildContext context,
+  ) {
     return ListView.builder(
       key: Key(_selectedTilePrev.toString()),
       itemBuilder: (context, index) {
@@ -94,7 +102,6 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   }
 
   Widget _buildListContainer(int indexMain) {
-
     //print("tvGuideItemList LENGTH ########### ${tvGuideItemList.length}");
 
     return ExpansionPanelList.radio(
@@ -108,28 +115,39 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
       children: [
         ExpansionPanelRadio(
           canTapOnHeader: true,
-            headerBuilder: (BuildContext context, bool isExpanded) {
-              return ListTile(
-                title: Text(tvGuideItemList[indexMain].movieName!),
-              );
-            },
-            body: ListTile(
-              title: Text(tvGuideItemList[indexMain].description!),
-            ),
-          value: Key(tvGuideItemList[indexMain].movieName.toString()),)
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return ListTile(
+              title: Text(tvGuideItemList[indexMain].movieName!),
+            );
+          },
+          body: ListTile(
+            title: Text(tvGuideItemList[indexMain].description!),
+          ),
+          value: Key(tvGuideItemList[indexMain].movieName.toString()),
+        )
       ],
     );
   }
 
-  Widget _buildCustomContainer(int index){
+  Widget _buildCustomContainer(int index) {
     return Column(
       children: [
         InkWell(
-          onTap: (){
+          onTap: () {
             setState(() {
-              tvGuideItemList[index].isExpanded = !tvGuideItemList[index].isExpanded;
-              if(_selectedTilePrev!=-1 && _selectedTilePrev!=index){
-                tvGuideItemList[_selectedTilePrev].isExpanded = !tvGuideItemList[_selectedTilePrev].isExpanded;
+
+              videoPlayerController = VideoPlayerController.network(
+                  tvGuideItemList[index].video?.url??"")
+                ..initialize().then((_) {
+                  // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+                  setState(() {});
+                });
+
+              tvGuideItemList[index].isExpanded =
+                  !tvGuideItemList[index].isExpanded;
+              if (_selectedTilePrev != -1 && _selectedTilePrev != index) {
+                tvGuideItemList[_selectedTilePrev].isExpanded =
+                    !tvGuideItemList[_selectedTilePrev].isExpanded;
               }
             });
             _selectedTilePrev = index;
@@ -137,46 +155,64 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
           child: Container(
             height: 50,
             color: Colors.grey,
-            child: Align(child: Text(tvGuideItemList[index].movieName!),
-            alignment: Alignment.centerLeft,),
+            child: Align(
+              child: Text(tvGuideItemList[index].movieName!),
+              alignment: Alignment.centerLeft,
+            ),
           ),
         ),
-        Visibility(
-          visible: tvGuideItemList[index].isExpanded,
-          child:
-          _buildDummyContainer(index),
+        InkWell(
+          onTap: (){
+            if(videoPlayerController.value.isPlaying){
+              videoPlayerController.pause();
+            }else{
+              videoPlayerController.play();
+            }
+          },
+          child: Visibility(
+            visible: tvGuideItemList[index].isExpanded,
+            child: _buildVideoPlayer(index),
+          ),
         )
       ],
     );
   }
 
-  Widget _buildDummyContainer(int index){
+  Widget _buildDummyContainer(int index) {
     return Container(
       child: Text(tvGuideItemList[index].description!),
     );
   }
 
-  // Widget _buildVideoPlayer(){
-  //   return  FutureBuilder(
-  //     future: videoPlayerFuture,
-  //     builder: (context, snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.done) {
-  //         return AspectRatio(
-  //           aspectRatio: videoPlayerController.value.aspectRatio,
-  //           child: VideoPlayer(videoPlayerController),
-  //         );
-  //       } else {
-  //         return Center(child: CircularProgressIndicator());
-  //       }
-  //     },
-  //   );
-  // }
+  Widget _buildVideoPlayer(int index) {
+    return videoPlayerController.value.isInitialized
+        ? AspectRatio(
+            aspectRatio: videoPlayerController.value.aspectRatio,
+            child: VideoPlayer(videoPlayerController),
+          )
+        : Container();
+  }
 
-  // void initializeVideo(){
-  //   videoPlayerController = VideoPlayerController.network(
-  //       'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4');
-  //   videoPlayerFuture = videoPlayerController.initialize();
-  //   videoPlayerController.setLooping(true);
-  // }
+// Widget _buildVideoPlayer(){
+//   return  FutureBuilder(
+//     future: videoPlayerFuture,
+//     builder: (context, snapshot) {
+//       if (snapshot.connectionState == ConnectionState.done) {
+//         return AspectRatio(
+//           aspectRatio: videoPlayerController.value.aspectRatio,
+//           child: VideoPlayer(videoPlayerController),
+//         );
+//       } else {
+//         return Center(child: CircularProgressIndicator());
+//       }
+//     },
+//   );
+// }
 
+// void initializeVideo(){
+//   videoPlayerController = VideoPlayerController.network(
+//       'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4');
+//   videoPlayerFuture = videoPlayerController.initialize();
+//   videoPlayerController.setLooping(true);
+// }
 }

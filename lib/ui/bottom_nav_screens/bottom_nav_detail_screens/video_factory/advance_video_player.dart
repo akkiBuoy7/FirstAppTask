@@ -95,7 +95,7 @@ class _CompleteVideoPlayerWidgetState
             height: 200,
             child: Center(
               child: CircularProgressIndicator(
-                color: Colors.white,
+                color: Colors.blue,
               ),
             ),
           );

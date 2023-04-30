@@ -6,6 +6,7 @@ import '../../bloc/internet_bloc/internet_bloc.dart';
 import 'package:video_player/video_player.dart';
 
 import 'bottom_nav_detail_screens/video_factory/video_factory_method.dart';
+import 'bottom_nav_detail_screens/video_player/complete_video_palyer_widget.dart';
 
 class WatchlistScreen extends StatefulWidget {
   @override
@@ -136,12 +137,10 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
           onTap: () {
             setState(() {
 
-              videoPlayerController = VideoPlayerController.network(
-                  tvGuideItemList[index].video?.url??"")
-                ..initialize().then((_) {
-                  // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-                  setState(() {});
-                });
+              videoPlayerController = VideoPlayerController.network( tvGuideItemList[index].video?.url??"")
+                ..addListener(() => setState(() {}))
+                ..setLooping(true)
+                ..initialize().then((value) => videoPlayerController.play());
 
               tvGuideItemList[index].isExpanded =
                   !tvGuideItemList[index].isExpanded;
@@ -161,18 +160,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             ),
           ),
         ),
-        InkWell(
-          onTap: (){
-            if(videoPlayerController.value.isPlaying){
-              videoPlayerController.pause();
-            }else{
-              videoPlayerController.play();
-            }
-          },
-          child: Visibility(
-            visible: tvGuideItemList[index].isExpanded,
-            child: _buildVideoPlayer(index),
-          ),
+        Visibility(
+          visible: tvGuideItemList[index].isExpanded,
+          child: _buildAdvancedPlayer(index),
         )
       ],
     );
@@ -193,26 +183,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
         : Container();
   }
 
-// Widget _buildVideoPlayer(){
-//   return  FutureBuilder(
-//     future: videoPlayerFuture,
-//     builder: (context, snapshot) {
-//       if (snapshot.connectionState == ConnectionState.done) {
-//         return AspectRatio(
-//           aspectRatio: videoPlayerController.value.aspectRatio,
-//           child: VideoPlayer(videoPlayerController),
-//         );
-//       } else {
-//         return Center(child: CircularProgressIndicator());
-//       }
-//     },
-//   );
-// }
-
-// void initializeVideo(){
-//   videoPlayerController = VideoPlayerController.network(
-//       'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4');
-//   videoPlayerFuture = videoPlayerController.initialize();
-//   videoPlayerController.setLooping(true);
-// }
+  Widget _buildAdvancedPlayer(int index){
+    return VideoPlayerFactory(
+        VideoPlayerType.ADVANCE_VIDEO_PLAYER, videoPlayerController)
+        .build(context);
+  }
 }

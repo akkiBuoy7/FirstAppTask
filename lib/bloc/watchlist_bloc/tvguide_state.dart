@@ -25,3 +25,12 @@ class TvGuideErrorState extends TvGuideState {
   @override
   List<Object?> get props => [message];
 }
+
+class TvGuideExpandNextState extends TvGuideState{
+  int indexNext;
+
+  TvGuideExpandNextState(this.indexNext);
+
+  @override
+  List<Object?> get props => [indexNext];
+}

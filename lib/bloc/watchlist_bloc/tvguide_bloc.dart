@@ -18,6 +18,10 @@ class TvGuideBloc extends Bloc<TvGuideEvent, TvGuideState> {
     on<TvGuideLoadedEvent>((event, emit) async {
       _getTvGuideApiData(event, state);
     });
+    on<TvGuideExpandNextEvent>((event, emit) async {
+      emit(TvGuideExpandNextState(event.index));
+    });
+
   }
 
   _getTvGuideApiData(TvGuideEvent event, TvGuideState state) async{

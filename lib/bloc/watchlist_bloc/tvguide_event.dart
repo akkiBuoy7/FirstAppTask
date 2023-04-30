@@ -9,3 +9,12 @@ abstract class TvGuideEvent extends Equatable {
 class TvGuideLoadingEvent extends TvGuideEvent {}
 
 class TvGuideLoadedEvent extends TvGuideEvent {}
+
+class TvGuideExpandNextEvent extends TvGuideEvent {
+  int index;
+
+  TvGuideExpandNextEvent(this.index);
+
+  @override
+  List<Object?> get props => [index];
+}

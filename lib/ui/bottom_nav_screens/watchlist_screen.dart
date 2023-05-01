@@ -1,5 +1,6 @@
 import 'package:first_app/bloc/watchlist_bloc/tvguide_bloc.dart';
 import 'package:first_app/model/tv_guide_item.dart';
+import 'package:first_app/utility/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
@@ -78,6 +79,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                 tvGuideItemList = state.tvGuideItemList;
                 return _buildListViewUi(context, state);
               } else if (state is TvGuideExpandNextState) {
+                print("######## STATE UPDATE");
                 return _buildListViewUi(context, state);
               } else {
                 return Container();
@@ -107,18 +109,37 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
           onTap: () {
             closePrevPlayer();
 
+            print("CLICKED INDEX ${index}");
+            // expand the current tile
             tvGuideItemList[index].isExpanded =
                 !tvGuideItemList[index].isExpanded;
+
+            print("CLICKED INDEX STATUS${tvGuideItemList[index].isExpanded}");
+
+            // close any other opened tile
             if (_selectedTilePrev != -1 && _selectedTilePrev != index) {
+              print("PREV INDEX ${_selectedTilePrev}");
+              print(
+                  "PREV INDEX STATUS${tvGuideItemList[_selectedTilePrev].isExpanded}");
+
               tvGuideItemList[_selectedTilePrev].isExpanded =
                   !tvGuideItemList[_selectedTilePrev].isExpanded;
+              closePrevPlayer();
+            }
+
+
+            if (index == _selectedTilePrev) {
+              print("SAME INDEX CLICKED");
+              print("SAME INDEX STATUS${tvGuideItemList[index].isExpanded}");
+              closePrevPlayer();
+            }else{
+              openPlayer(index);
             }
 
             _selectedTilePrev = index;
 
-            openPlayer(index);
-
-            context.read<TvGuideBloc>().add(TvGuideExpandNextEvent(index));
+            print("SENDING EXPAND EVENT");
+            context.read<TvGuideBloc>().add(TvGuideExpandNextEvent(generateRandomNumber()));
 
             // setState(() {
             //   tvGuideItemList[index].isExpanded =
@@ -157,7 +178,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
 
   void closePrevPlayer() {
     videoPlayerController.removeListener(() {});
-    videoPlayerController.dispose();
+    videoPlayerController.pause();
+    //videoPlayerController.dispose();
   }
 
   void openPlayer(int index) {

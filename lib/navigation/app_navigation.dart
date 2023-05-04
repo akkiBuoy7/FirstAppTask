@@ -5,6 +5,7 @@ import 'package:first_app/repository/home_repository.dart';
 import 'package:first_app/repository/tv_guide_repository.dart';
 import 'package:first_app/ui/DashScreen.dart';
 import 'package:first_app/ui/LoginScreen.dart';
+import 'package:first_app/ui/bottom_nav_screens/bottom_nav_detail_screens/tv_guide_screen.dart';
 import 'package:first_app/ui/bottom_nav_screens/home_screen.dart';
 import 'package:first_app/ui/bottom_nav_screens/watchlist_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,7 +25,8 @@ class AppNavigation {
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case ProjectUtil.DASH_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (_) => MultiRepositoryProvider(
+            builder: (_) =>
+                MultiRepositoryProvider(
                   providers: [
                     RepositoryProvider<HomeRepository>(
                         create: (context) => HomeRepository()),
@@ -54,8 +56,30 @@ class AppNavigation {
 
       case ProjectUtil.HOME_SCREEN_ROUTE:
         return MaterialPageRoute(builder: (_) => HomeScreen());
+      case ProjectUtil.TVGUIDE_SCREEN_ROUTE:
+        return MaterialPageRoute(builder: (_) => TvGuideScreen());
       case ProjectUtil.WATCHLIST_SCREEN_ROUTE:
         return MaterialPageRoute(builder: (_) => WatchlistScreen());
+        //     MultiRepositoryProvider(
+        //   providers: [
+        //     RepositoryProvider<TvGuideRepository>(
+        //         create: (context) => TvGuideRepository()),
+        //   ],
+        //   child: MultiBlocProvider(
+        //     providers: [
+        //       BlocProvider<TvGuideBloc>(
+        //         create: (BuildContext context) => TvGuideBloc(
+        //           context.read<TvGuideRepository>(),
+        //         ),
+        //       ),
+        //       BlocProvider<TvGuideOptionsBloc>(
+        //         create: (BuildContext context) => TvGuideOptionsBloc(
+        //         ),
+        //       ),
+        //     ],
+        //     child: WatchlistScreen(),
+        //   ),
+        // ));
       case ProjectUtil.HOME_DETAILS_SCREEN_ROUTE:
         MovieDetail movieDetail = routeSettings.arguments as MovieDetail;
         return MaterialPageRoute(

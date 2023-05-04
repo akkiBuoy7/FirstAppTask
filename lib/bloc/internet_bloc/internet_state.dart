@@ -10,4 +10,7 @@ class InternetInitialState extends InternetState{}
 
 class InternetLostState extends InternetState {}
 
-class InternetConnectedState extends InternetState {}
+class InternetConnectedState extends InternetState {
+  @override
+  List<Object?> get props => [identityHashCode(this)];
+}

@@ -19,7 +19,7 @@ class InternetBloc extends Bloc<InternetEvent, InternetState> {
   InternetBloc(this._connectivity) : super(InternetInitialState()) {
 
     on<InternetConnectedEvent>((event, emit){
-      // print("######## INTERNET CONNECTED STATE FIRED");
+      print("######## INTERNET CONNECTED STATE FIRED TV gUIDE");
       emit(InternetConnectedState());
     });
     on<InternetLostEvent>((event, emit) {
@@ -34,7 +34,7 @@ class InternetBloc extends Bloc<InternetEvent, InternetState> {
               _isConnected = await InternetConnectionChecker().hasConnection;
           if (_isConnected) {
             add(InternetConnectedEvent());
-            // print("######## INTERNET CONNECTED EVENT FIRED");
+             print("######## INTERNET CONNECTED EVENT FIRED");
           }else{
             add(InternetLostEvent());
             // print("######## INTERNET LOST EVENT FIRED");

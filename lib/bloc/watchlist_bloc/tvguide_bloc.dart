@@ -31,6 +31,7 @@ class TvGuideBloc extends Bloc<TvGuideEvent, TvGuideState> {
     try {
       emit(TvGuideLoadingState());
       tvGuideItemList = await tvGuideRepository.fetchApiData();
+      print("################## TV GUIDE RESPONSE ${tvGuideItemList.length}");
       emit(TvGuideLoadedState(tvGuideItemList));
     } catch (e) {
       emit(TvGuideErrorState(e.toString()));

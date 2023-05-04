@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -22,6 +23,8 @@ class TvGuideBloc extends Bloc<TvGuideEvent, TvGuideState> {
       emit(TvGuideExpandNextState(event.index));
     });
 
+    on<TvGuideFilteredEvent>((event, emit) =>
+        emit(TvGuideLoadedState(event.tvGuideItemList)));
   }
 
   _getTvGuideApiData(TvGuideEvent event, TvGuideState state) async{

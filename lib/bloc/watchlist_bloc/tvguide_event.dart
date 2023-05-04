@@ -10,6 +10,15 @@ class TvGuideLoadingEvent extends TvGuideEvent {}
 
 class TvGuideLoadedEvent extends TvGuideEvent {}
 
+class TvGuideFilteredEvent extends TvGuideEvent {
+  List<TvGuideDetails> tvGuideItemList;
+
+  TvGuideFilteredEvent(this.tvGuideItemList);
+
+  @override
+  List<Object?> get props => [tvGuideItemList];
+}
+
 class TvGuideExpandNextEvent extends TvGuideEvent {
   int index;
 
@@ -18,3 +27,5 @@ class TvGuideExpandNextEvent extends TvGuideEvent {
   @override
   List<Object?> get props => [index];
 }
+
+

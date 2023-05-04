@@ -6,7 +6,10 @@ abstract class TvGuideState extends Equatable {
   List<Object?> get props => [];
 }
 
-class TvGuideLoadingState extends TvGuideState {}
+class TvGuideLoadingState extends TvGuideState {
+  @override
+  List<Object?> get props => [Random().nextDouble()];
+}
 
 class TvGuideLoadedState extends TvGuideState {
   List<TvGuideDetails> tvGuideItemList;
@@ -34,3 +37,5 @@ class TvGuideExpandNextState extends TvGuideState{
   @override
   List<Object?> get props => [indexNext];
 }
+
+

@@ -4,6 +4,7 @@ import 'package:video_player/video_player.dart';
 
 import '../video_player/basic_video_player_widget.dart';
 import '../video_player/complete_video_palyer_widget.dart';
+import '../video_player/tvguide_video_player_widget.dart';
 import 'advance_video_player.dart';
 import 'basic_video_player.dart';
 
@@ -25,7 +26,7 @@ abstract class VideoPlayerFactory {
         return CompleteVideoPlayerWidgetFactory(
             videoPlayerController: _videoPlayerController);
       case VideoPlayerType.TV_GUIDE_VIDEO_PLAYER:
-        return TvGuidePlayerWidgetFactory(
+        return TvGuideVideoPlayerWidget(
             videoPlayerController: _videoPlayerController);
       default:
         return VideoPlayerWidgetFactory(videoPlayerController: _videoPlayerController);

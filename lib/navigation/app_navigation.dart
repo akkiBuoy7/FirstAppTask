@@ -1,5 +1,6 @@
 import 'package:first_app/bloc/home_movies_bloc.dart';
 import 'package:first_app/bloc/watchlist_bloc/tvguide_bloc.dart';
+import 'package:first_app/bloc/watchlist_bloc/tvguide_options_bloc/tv_guide_options_bloc.dart';
 import 'package:first_app/repository/home_repository.dart';
 import 'package:first_app/repository/tv_guide_repository.dart';
 import 'package:first_app/ui/DashScreen.dart';
@@ -40,6 +41,10 @@ class AppNavigation {
                       BlocProvider<HomeMoviesBloc>(
                         create: (BuildContext context) => HomeMoviesBloc(
                           context.read<HomeRepository>(),
+                        ),
+                      ),
+                      BlocProvider<TvGuideOptionsBloc>(
+                        create: (BuildContext context) => TvGuideOptionsBloc(
                         ),
                       ),
                     ],

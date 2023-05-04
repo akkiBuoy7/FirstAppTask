@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../bloc/internet_bloc/internet_bloc.dart';
+import '../../bloc/watchlist_bloc/tvguide_options_bloc/tv_guide_options_bloc.dart';
 import 'bottom_nav_detail_screens/video_factory/video_factory_method.dart';
 
 class WatchlistScreen extends StatefulWidget {
@@ -35,6 +36,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         centerTitle: true,
         title: Text("Watch List", style: TextStyle(color: Colors.white)),
@@ -74,13 +76,15 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
           child: BlocBuilder<TvGuideBloc, TvGuideState>(
             builder: (context, state) {
               if (state is TvGuideLoadingState) {
+                print("*****#### LOADING STATE RECEIVED");
                 return _buildLoading();
               } else if (state is TvGuideLoadedState) {
+                print("######## STATE TvGuideLoadedState UPDATE");
                 tvGuideItemList = state.tvGuideItemList;
-                return _buildListViewUi(context, state);
+                return _buildParent(context, state);
               } else if (state is TvGuideExpandNextState) {
-                print("######## STATE UPDATE");
-                return _buildListViewUi(context, state);
+                print("######## STATE TvGuideExpandNextState UPDATE");
+                return _buildParent(context, state);
               } else {
                 return Container();
               }
@@ -89,13 +93,278 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
     );
   }
 
-  Widget _buildLoading() => const Center(child: CircularProgressIndicator());
+  Widget _buildLoading() => const Center(
+          child: CircularProgressIndicator(
+        color: Colors.white,
+      ));
+
+  Widget _buildParent(BuildContext context, TvGuideState state) {
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: _buildOptionsUi(context),
+          ),
+        ),
+        SliverToBoxAdapter(child: _buildListContainer()
+            // _buildListViewUi(context, state),
+            )
+      ],
+    );
+  }
+
+  Widget _buildOptionsUi(BuildContext context) {
+    return BlocBuilder<TvGuideOptionsBloc, TvGuideOptionsState>(
+        builder: (context, state) {
+      if (state is TvGuideShowSearchState) {
+        if (state.showSearchBar) {
+          return _buildSearchBar(context);
+        } else {
+          return _buildMenuOptions();
+        }
+      } else {
+        return _buildMenuOptions();
+      }
+    });
+  }
+
+  Widget _buildMenuOptions() {
+    return Container(
+      height: 70,
+      color: Colors.black,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 150,
+            height: 40,
+            color: Colors.grey,
+          ),
+          Container(
+            color: Colors.black,
+            width: 200,
+            height: 40,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      context
+                          .read<TvGuideOptionsBloc>()
+                          .add(TvGuideShowSearchEvent(true));
+                    },
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    child: Icon(
+                      Icons.grid_view,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    child: Icon(
+                      Icons.filter_alt,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearchBar(BuildContext context) {
+    return TextField(
+      onChanged: (value) => _runFilter(value),
+      style: TextStyle(color: Colors.white),
+      decoration: new InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blueGrey, width: 2.0),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blueGrey, width: 5.0),
+          ),
+          hintText: 'Search. . . ',
+          hintStyle: TextStyle(color: Colors.grey),
+          prefixIcon: const Icon(
+            Icons.search,
+            color: Colors.white,
+          ),
+          suffixIcon: GestureDetector(
+            onTap: () {
+              context
+                  .read<TvGuideOptionsBloc>()
+                  .add(TvGuideShowSearchEvent(false));
+            },
+            child: const Icon(
+              Icons.close,
+              color: Colors.white,
+            ),
+          )),
+    );
+  }
+
+  Widget _buildListContainer() {
+    //print("tvGuideItemList LENGTH ########### ${tvGuideItemList.length}");
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ExpansionPanelList.radio(
+        dividerColor: Colors.black,
+        expansionCallback: (index, isExpanded) {
+          print("EXPANSION INDEX ${index} EXPANSION ${isExpanded}");
+
+          if(isExpanded){
+            closePrevPlayer();
+          }else{
+            playVideo(index);
+
+          }
+        },
+        animationDuration: Duration(milliseconds: 1000),
+        children: tvGuideItemList
+            .map((e) =>
+            ExpansionPanelRadio(
+            value: e,
+            backgroundColor: Colors.grey,
+            canTapOnHeader: true,
+            headerBuilder: (context, isExpanded) {
+              return
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                  child: Container(
+                    height: 60,
+                    color: Colors.blueGrey,
+                    child: Align(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          e.movieName!,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      alignment: Alignment.centerLeft,
+                    ),
+                  ),
+                );
+            },
+            body: Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                child: _buildAdvancedPlayerScreen(),
+              ),
+            )))
+            .toList(),
+      ),
+    );
+  }
+
+
+  // This function is called whenever the text field changes
+  void _runFilter(String enteredKeyword) {
+    List<TvGuideDetails> suggestions = [];
+    if (enteredKeyword.isEmpty) {
+      context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
+    } else {
+      suggestions = tvGuideItemList.where((obj) {
+        final movieName = obj.movieName?.toLowerCase();
+        final input = enteredKeyword.toLowerCase();
+
+        return movieName!.contains(input);
+      }).toList();
+    }
+
+    context.read<TvGuideBloc>().add(TvGuideFilteredEvent(suggestions));
+  }
+
+  Widget _buildAdvancedPlayerScreen() {
+    return VideoPlayerFactory(
+        VideoPlayerType.TV_GUIDE_VIDEO_PLAYER, videoPlayerController)
+        .build(context);
+  }
+
+  void closePrevPlayer() {
+    videoPlayerController.removeListener(() {});
+    videoPlayerController.pause();
+    videoPlayerController.dispose();
+  }
+
+  void playVideo(int index) {
+    Future.delayed(const Duration(seconds: 1), () {
+      videoPlayerController =
+      VideoPlayerController.network(tvGuideItemList[index].video?.url ?? "")
+        ..addListener(() => setState(() {}))
+        ..setLooping(true)
+        ..initialize().then((value) => videoPlayerController.play());
+    });
+  }
+
+  // ********************* Using listview with expansion tile
+
+
+  // ********************* Using custom container and listview
+  void openPlayer(int index) {
+    Future.delayed(const Duration(seconds: 1), () {
+      videoPlayerController =
+      VideoPlayerController.network(tvGuideItemList[index].video?.url ?? "")
+        ..addListener(() => setState(() {}))
+        ..setLooping(true)
+        ..initialize().then((value) => videoPlayerController.play());
+    });
+  }
+
+  Widget _buildAdvancedPlayer(int index) {
+    return VideoPlayerFactory(
+        VideoPlayerType.TV_GUIDE_VIDEO_PLAYER, videoPlayerController)
+        .build(context);
+  }
 
   Widget _buildListViewUi(BuildContext context, TvGuideState state) {
     return ListView.builder(
+      shrinkWrap: true,
+      primary: false,
       key: Key(_selectedTilePrev.toString()),
       itemBuilder: (context, index) {
-        return _buildCustomContainer(context, index, state);
+        return _buildListContainer();
+        //_buildCustomContainer(context, index, state);
       },
       itemCount: tvGuideItemList.length,
     );
@@ -112,7 +381,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             print("CLICKED INDEX ${index}");
             // expand the current tile
             tvGuideItemList[index].isExpanded =
-                !tvGuideItemList[index].isExpanded;
+            !tvGuideItemList[index].isExpanded;
 
             print("CLICKED INDEX STATUS${tvGuideItemList[index].isExpanded}");
 
@@ -123,23 +392,24 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   "PREV INDEX STATUS${tvGuideItemList[_selectedTilePrev].isExpanded}");
 
               tvGuideItemList[_selectedTilePrev].isExpanded =
-                  !tvGuideItemList[_selectedTilePrev].isExpanded;
+              !tvGuideItemList[_selectedTilePrev].isExpanded;
               closePrevPlayer();
             }
-
 
             if (index == _selectedTilePrev) {
               print("SAME INDEX CLICKED");
               print("SAME INDEX STATUS${tvGuideItemList[index].isExpanded}");
               closePrevPlayer();
-            }else{
+            } else {
               openPlayer(index);
             }
 
             _selectedTilePrev = index;
 
             print("SENDING EXPAND EVENT");
-            context.read<TvGuideBloc>().add(TvGuideExpandNextEvent(generateRandomNumber()));
+            context
+                .read<TvGuideBloc>()
+                .add(TvGuideExpandNextEvent(generateRandomNumber()));
 
             // setState(() {
             //   tvGuideItemList[index].isExpanded =
@@ -153,68 +423,30 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             //
             // openPlayer(index);
           },
-          child: Container(
-            height: 50,
-            color: Colors.grey,
-            child: Align(
-              child: Text(tvGuideItemList[index].movieName!),
-              alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+            child: Container(
+              height: 60,
+              color: Colors.brown,
+              child: Align(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    tvGuideItemList[index].movieName!,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                alignment: Alignment.centerLeft,
+              ),
             ),
           ),
         ),
         Visibility(
           visible: tvGuideItemList[index].isExpanded,
-          child: _buildAdvancedPlayer(index),
-        )
-      ],
-    );
-  }
-
-  Widget _buildAdvancedPlayer(int index) {
-    return VideoPlayerFactory(
-            VideoPlayerType.TV_GUIDE_VIDEO_PLAYER, videoPlayerController)
-        .build(context);
-  }
-
-  void closePrevPlayer() {
-    videoPlayerController.removeListener(() {});
-    videoPlayerController.pause();
-    //videoPlayerController.dispose();
-  }
-
-  void openPlayer(int index) {
-    Future.delayed(const Duration(seconds: 1), () {
-      videoPlayerController =
-          VideoPlayerController.network(tvGuideItemList[index].video?.url ?? "")
-            ..addListener(() => setState(() {}))
-            ..setLooping(true)
-            ..initialize().then((value) => videoPlayerController.play());
-    });
-  }
-
-  Widget _buildListContainer(int indexMain) {
-    //print("tvGuideItemList LENGTH ########### ${tvGuideItemList.length}");
-
-    return ExpansionPanelList.radio(
-      expansionCallback: (index, isExpanded) {
-        setState(() {
-          print("EXPANSION INDEX ${indexMain}");
-          tvGuideItemList[indexMain].isExpanded = !isExpanded;
-        });
-      },
-      animationDuration: Duration(milliseconds: 1000),
-      children: [
-        ExpansionPanelRadio(
-          canTapOnHeader: true,
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              title: Text(tvGuideItemList[indexMain].movieName!),
-            );
-          },
-          body: ListTile(
-            title: Text(tvGuideItemList[indexMain].description!),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+            child: _buildAdvancedPlayer(index),
           ),
-          value: Key(tvGuideItemList[indexMain].movieName.toString()),
         )
       ],
     );

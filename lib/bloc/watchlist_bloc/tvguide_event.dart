@@ -20,12 +20,12 @@ class TvGuideFilteredEvent extends TvGuideEvent {
 }
 
 class TvGuideExpandNextEvent extends TvGuideEvent {
-  int index;
-
-  TvGuideExpandNextEvent(this.index);
+  // int index;
+  //
+  // TvGuideExpandNextEvent(this.index);
 
   @override
-  List<Object?> get props => [index];
+  List<Object?> get props => [];
 }
 
 

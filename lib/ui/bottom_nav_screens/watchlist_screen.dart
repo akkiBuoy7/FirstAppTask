@@ -20,6 +20,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   bool clickExpanded = false;
   late VideoPlayerController videoPlayerController;
   late Future<void> videoPlayerFuture;
+  int selectedTile = -1; //attention
 
   @override
   void initState() {
@@ -107,7 +108,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             child: _buildOptionsUi(context),
           ),
         ),
-        SliverToBoxAdapter(child: _buildListContainer()
+        SliverToBoxAdapter(child: _buildListViewUi(context, state)
             // _buildListViewUi(context, state),
             )
       ],
@@ -242,62 +243,6 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
     );
   }
 
-  Widget _buildListContainer() {
-    //print("tvGuideItemList LENGTH ########### ${tvGuideItemList.length}");
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ExpansionPanelList.radio(
-        dividerColor: Colors.black,
-        expansionCallback: (index, isExpanded) {
-          print("EXPANSION INDEX ${index} EXPANSION ${isExpanded}");
-
-          if(isExpanded){
-            closePrevPlayer();
-          }else{
-            playVideo(index);
-
-          }
-        },
-        animationDuration: Duration(milliseconds: 1000),
-        children: tvGuideItemList
-            .map((e) =>
-            ExpansionPanelRadio(
-            value: e,
-            backgroundColor: Colors.grey,
-            canTapOnHeader: true,
-            headerBuilder: (context, isExpanded) {
-              return
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                  child: Container(
-                    height: 60,
-                    color: Colors.blueGrey,
-                    child: Align(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          e.movieName!,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      alignment: Alignment.centerLeft,
-                    ),
-                  ),
-                );
-            },
-            body: Container(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                child: _buildAdvancedPlayerScreen(),
-              ),
-            )))
-            .toList(),
-      ),
-    );
-  }
-
-
   // This function is called whenever the text field changes
   void _runFilter(String enteredKeyword) {
     List<TvGuideDetails> suggestions = [];
@@ -315,9 +260,126 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
     context.read<TvGuideBloc>().add(TvGuideFilteredEvent(suggestions));
   }
 
+  // ################# Using Expansion Panel Radio ********************
+
+
+  Widget _buildListContainer() {
+    //print("tvGuideItemList LENGTH ########### ${tvGuideItemList.length}");
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ExpansionPanelList.radio(
+        dividerColor: Colors.black,
+        expansionCallback: (index, isExpanded) {
+          print("EXPANSION INDEX ${index} EXPANSION ${isExpanded}");
+
+          if (isExpanded) {
+            closePrevPlayer();
+          } else {
+            playVideo(index);
+          }
+        },
+        animationDuration: Duration(milliseconds: 1000),
+        children: tvGuideItemList
+            .map((e) => ExpansionPanelRadio(
+                value: e,
+                backgroundColor: Colors.grey,
+                canTapOnHeader: true,
+                headerBuilder: (context, isExpanded) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 8.0),
+                    child: Container(
+                      height: 60,
+                      color: Colors.blueGrey,
+                      child: Align(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            e.movieName!,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        alignment: Alignment.centerLeft,
+                      ),
+                    ),
+                  );
+                },
+                body: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 8.0),
+                    child: _buildAdvancedPlayerScreen(),
+                  ),
+                )))
+            .toList(),
+      ),
+    );
+  }
+  // *****************************************************************
+
+  // ********************* Using listview with expansion tile
+
+  Widget _buildListViewUi(BuildContext context, TvGuideState state) {
+    return ListView.builder(
+      key: Key(selectedTile.toString()),
+      shrinkWrap: true,
+      primary: false,
+      itemBuilder: (context, index) {
+        return _buildCardTile(index);
+        //_buildCustomContainer(context, index, state);
+      },
+      itemCount: tvGuideItemList.length,
+    );
+  }
+
+  Widget _buildCardTile(int index) {
+    return Card(
+      child: ExpansionTile(
+        key: Key(index.toString()),
+        textColor: Colors.white,
+        collapsedTextColor: Colors.black,
+        initiallyExpanded: index == selectedTile,
+        trailing: SizedBox.shrink(),
+        collapsedBackgroundColor: Colors.brown,
+        backgroundColor: Colors.grey,
+        onExpansionChanged: ((newState) {
+
+          if (newState){
+            selectedTile = index;
+            context
+                .read<TvGuideBloc>()
+                .add(TvGuideExpandNextEvent());
+            playVideo(index);
+          }else{
+            selectedTile = -1;
+            context
+                .read<TvGuideBloc>()
+                .add(TvGuideExpandNextEvent());
+            closePrevPlayer();
+          }
+
+          print("##### ${newState} ${index}*********");
+        }),
+        title: Text(tvGuideItemList[index].movieName!),
+        children: [Container(
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 8.0, right: 8.0, bottom: 8.0),
+            child: _buildAdvancedPlayerScreen(),
+          ),
+        )],
+      ),
+    );
+  }
+
+  // *****************************************************************
+
+  // ********** Video player related methods *******************
+
   Widget _buildAdvancedPlayerScreen() {
     return VideoPlayerFactory(
-        VideoPlayerType.TV_GUIDE_VIDEO_PLAYER, videoPlayerController)
+            VideoPlayerType.TV_GUIDE_VIDEO_PLAYER, videoPlayerController)
         .build(context);
   }
 
@@ -330,44 +392,32 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   void playVideo(int index) {
     Future.delayed(const Duration(seconds: 1), () {
       videoPlayerController =
-      VideoPlayerController.network(tvGuideItemList[index].video?.url ?? "")
-        ..addListener(() => setState(() {}))
-        ..setLooping(true)
-        ..initialize().then((value) => videoPlayerController.play());
+          VideoPlayerController.network(tvGuideItemList[index].video?.url ?? "")
+            ..addListener(() => setState(() {}))
+            ..setLooping(true)
+            ..initialize().then((value) => videoPlayerController.play());
     });
   }
 
-  // ********************* Using listview with expansion tile
+  // *****************************************************************
+
 
 
   // ********************* Using custom container and listview
   void openPlayer(int index) {
     Future.delayed(const Duration(seconds: 1), () {
       videoPlayerController =
-      VideoPlayerController.network(tvGuideItemList[index].video?.url ?? "")
-        ..addListener(() => setState(() {}))
-        ..setLooping(true)
-        ..initialize().then((value) => videoPlayerController.play());
+          VideoPlayerController.network(tvGuideItemList[index].video?.url ?? "")
+            ..addListener(() => setState(() {}))
+            ..setLooping(true)
+            ..initialize().then((value) => videoPlayerController.play());
     });
   }
 
   Widget _buildAdvancedPlayer(int index) {
     return VideoPlayerFactory(
-        VideoPlayerType.TV_GUIDE_VIDEO_PLAYER, videoPlayerController)
+            VideoPlayerType.TV_GUIDE_VIDEO_PLAYER, videoPlayerController)
         .build(context);
-  }
-
-  Widget _buildListViewUi(BuildContext context, TvGuideState state) {
-    return ListView.builder(
-      shrinkWrap: true,
-      primary: false,
-      key: Key(_selectedTilePrev.toString()),
-      itemBuilder: (context, index) {
-        return _buildListContainer();
-        //_buildCustomContainer(context, index, state);
-      },
-      itemCount: tvGuideItemList.length,
-    );
   }
 
   Widget _buildCustomContainer(
@@ -381,7 +431,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             print("CLICKED INDEX ${index}");
             // expand the current tile
             tvGuideItemList[index].isExpanded =
-            !tvGuideItemList[index].isExpanded;
+                !tvGuideItemList[index].isExpanded;
 
             print("CLICKED INDEX STATUS${tvGuideItemList[index].isExpanded}");
 
@@ -392,7 +442,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   "PREV INDEX STATUS${tvGuideItemList[_selectedTilePrev].isExpanded}");
 
               tvGuideItemList[_selectedTilePrev].isExpanded =
-              !tvGuideItemList[_selectedTilePrev].isExpanded;
+                  !tvGuideItemList[_selectedTilePrev].isExpanded;
               closePrevPlayer();
             }
 
@@ -409,7 +459,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             print("SENDING EXPAND EVENT");
             context
                 .read<TvGuideBloc>()
-                .add(TvGuideExpandNextEvent(generateRandomNumber()));
+                .add(TvGuideExpandNextEvent());
 
             // setState(() {
             //   tvGuideItemList[index].isExpanded =
@@ -452,3 +502,6 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
     );
   }
 }
+
+// *****************************************************************
+

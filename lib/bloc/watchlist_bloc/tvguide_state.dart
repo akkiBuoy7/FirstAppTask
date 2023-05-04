@@ -30,12 +30,12 @@ class TvGuideErrorState extends TvGuideState {
 }
 
 class TvGuideExpandNextState extends TvGuideState{
-  int indexNext;
-
-  TvGuideExpandNextState(this.indexNext);
+  // int indexNext;
+  //
+  // TvGuideExpandNextState(this.indexNext);
 
   @override
-  List<Object?> get props => [indexNext];
+  List<Object?> get props => [identityHashCode(this)];
 }
 
 

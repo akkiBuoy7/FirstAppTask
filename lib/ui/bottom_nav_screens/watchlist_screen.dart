@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'bottom_nav_detail_screens/tv_guide_screen.dart';
 import 'favorites_screen.dart';
 
-class WatchlistScreen extends StatefulWidget {
+class WatchlistScreen extends StatefulWidget  {
   @override
   State<WatchlistScreen> createState() => _WatchlistScreenState();
 }
 
-class _WatchlistScreenState extends State<WatchlistScreen> {
+class _WatchlistScreenState extends State<WatchlistScreen> with AutomaticKeepAliveClientMixin<WatchlistScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,4 +38,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

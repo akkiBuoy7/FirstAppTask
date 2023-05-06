@@ -21,7 +21,19 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
   bool clickExpanded = false;
   late VideoPlayerController videoPlayerController;
   late Future<void> videoPlayerFuture;
-  int selectedTile = -1; //attention
+  int selectedTile = -1;
+  String selectedDropdownItem = "Channel1";
+
+  List<DropdownMenuItem<String>> get dropdownItems{
+    List<DropdownMenuItem<String>> menuItems = [
+      DropdownMenuItem(child: Text("Channel1"),value: "Channel1"),
+      DropdownMenuItem(child: Text("Channel2"),value: "Channel2"),
+      DropdownMenuItem(child: Text("Channel3"),value: "Channel3"),
+      DropdownMenuItem(child: Text("Channel4"),value: "Channel4"),
+      DropdownMenuItem(child: Text("Channel5"),value: "Channel5"),
+    ];
+    return menuItems;
+  }
 
   @override
   void initState() {
@@ -136,9 +148,24 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0)
+            ),
             width: 150,
             height: 40,
-            color: Colors.grey,
+            child: Padding(
+              padding: const EdgeInsets.only(left:10.0),
+              child: DropdownButton(
+                  value: selectedDropdownItem,
+                dropdownColor: Colors.grey,
+                style: TextStyle(color: Colors.white,fontSize: 15),
+                  items: dropdownItems, onChanged: (String? value) {
+                setState(() {
+                  selectedDropdownItem = value!;
+                });
+              },
+              ),
+            ),
           ),
           Container(
             color: Colors.black,

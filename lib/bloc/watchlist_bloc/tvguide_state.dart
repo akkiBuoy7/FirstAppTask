@@ -13,11 +13,11 @@ class TvGuideLoadingState extends TvGuideState {
 
 class TvGuideLoadedState extends TvGuideState {
   List<TvGuideDetails> tvGuideItemList;
-
-  TvGuideLoadedState(this.tvGuideItemList);
+  final int now;
+  TvGuideLoadedState(this.now,this.tvGuideItemList);
 
   @override
-  List<Object?> get props => [tvGuideItemList];
+  List<Object?> get props => [now,tvGuideItemList];
 }
 
 class TvGuideErrorState extends TvGuideState {

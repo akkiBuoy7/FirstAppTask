@@ -8,6 +8,7 @@ import 'package:video_player/video_player.dart';
 
 import '../../../bloc/internet_bloc/internet_bloc.dart';
 import '../../../bloc/watchlist_bloc/tvguide_options_bloc/tv_guide_options_bloc.dart';
+import '../../../custom_widget/modal_bottom_sheet.dart';
 
 class TvGuideScreen extends StatefulWidget {
   @override
@@ -22,6 +23,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
   late Future<void> videoPlayerFuture;
   int selectedTile = -1;
   String selectedDropdownItem = "Channel1";
+  int _selectedSortValue = 0;
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
@@ -134,7 +136,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
         } else {
           return _buildMenuOptions();
         }
-      }else if(state is TvGuideSelectItemState){
+      } else if (state is TvGuideSelectItemState) {
         selectedDropdownItem = state.value;
         return _buildMenuOptions();
       } else {
@@ -162,7 +164,9 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
                 style: TextStyle(color: Colors.white, fontSize: 15),
                 items: dropdownItems,
                 onChanged: (String? value) {
-                  context.read<TvGuideOptionsBloc>().add(TvGuideSelectItemEvent(value!));
+                  context
+                      .read<TvGuideOptionsBloc>()
+                      .add(TvGuideSelectItemEvent(value!));
                 },
               ),
             ),
@@ -199,34 +203,54 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(5.0),
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    child: Icon(
-                      Icons.grid_view,
-                      color: Colors.white,
-                      size: 20,
+                  child: GestureDetector(
+                    onTap: () {
+                      _buildBottomSheet(
+                        "Random",
+                        "Ascending",
+                        "Descending",
+                        true
+                      );
+                    },
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      child: Icon(
+                        Icons.grid_view,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(10)),
                     ),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(5.0),
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    child: Icon(
-                      Icons.filter_alt,
-                      color: Colors.white,
-                      size: 20,
+                  child: GestureDetector(
+                    onTap: () {
+                      _buildBottomSheet(
+                        "Random",
+                        "High rated first",
+                        "Low rated first",
+                        false
+                      );
+                    },
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      child: Icon(
+                        Icons.filter_alt,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(10)),
                     ),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
               ],
@@ -235,6 +259,71 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
         ],
       ),
     );
+  }
+
+  _buildBottomSheet(
+      String first, String second, String third, bool isSortingFilter) {
+    return showModalBottomSheet(
+        enableDrag: false,
+        isDismissible: false,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        context: context,
+        builder: (BuildContext context) {
+          return CustomBottomSheet(
+            selectedValue: _selectedSortValue,
+            firstOption: first,
+            secondOption: second,
+            thirdOption: third,
+            callback: (value) {
+              _selectedSortValue = value;
+              if (isSortingFilter) {
+                _sorting(value);
+              } else {
+                _rateFilter(value);
+              }
+
+              print("######### Selected value is ${value}");
+            },
+          );
+        });
+  }
+
+  void _sorting(int selectedFilter) {
+    if (selectedFilter == 0) {
+      context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
+    } else if (selectedFilter == 1) {
+      tvGuideItemList.sort((a, b) {
+        //sorting in ascending order
+        return a.movieName!.compareTo(b.movieName!);
+      });
+      print("LLLLLLL ${tvGuideItemList[0].movieName}");
+      context.read<TvGuideBloc>().add(TvGuideFilteredEvent(tvGuideItemList));
+    } else {
+      tvGuideItemList.sort((a, b) {
+        //sorting in descending order
+        return b.movieName!.toLowerCase().compareTo(a.movieName!.toLowerCase());
+      });
+      print("FFFFFF ${tvGuideItemList[0].movieName}");
+      context.read<TvGuideBloc>().add(TvGuideFilteredEvent(tvGuideItemList));
+    }
+  }
+
+  void _rateFilter(int selectedFilter) {
+    if (selectedFilter == 0) {
+      context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
+    } else if (selectedFilter == 1) {
+      tvGuideItemList.sort((a, b) {
+        return b.rating!.compareTo(a.rating!);
+      });
+      print("LLLLLLL ${tvGuideItemList[0].movieName}");
+      context.read<TvGuideBloc>().add(TvGuideFilteredEvent(tvGuideItemList));
+    } else {
+      tvGuideItemList.sort((a, b) {
+        return a.rating!.compareTo(b.rating!);
+      });
+      print("FFFFFF ${tvGuideItemList[0].movieName}");
+      context.read<TvGuideBloc>().add(TvGuideFilteredEvent(tvGuideItemList));
+    }
   }
 
   Widget _buildSearchBar(BuildContext context) {
@@ -256,10 +345,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
           ),
           suffixIcon: GestureDetector(
             onTap: () {
-
-              context
-                  .read<TvGuideBloc>()
-                  .add(TvGuideLoadedEvent());
+              context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
 
               context
                   .read<TvGuideOptionsBloc>()
@@ -370,7 +456,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
         textColor: Colors.white,
         collapsedTextColor: Colors.black,
         initiallyExpanded: index == selectedTile,
-        trailing: SizedBox.shrink(),
+        trailing: Text("Rating : ${tvGuideItemList[index].rating!}"),
         collapsedBackgroundColor: Colors.brown,
         backgroundColor: Colors.grey,
         onExpansionChanged: ((newState) {

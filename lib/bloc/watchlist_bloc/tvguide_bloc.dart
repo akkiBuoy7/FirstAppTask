@@ -24,7 +24,7 @@ class TvGuideBloc extends Bloc<TvGuideEvent, TvGuideState> {
     });
 
     on<TvGuideFilteredEvent>((event, emit) =>
-        emit(TvGuideLoadedState(event.tvGuideItemList)));
+        emit(TvGuideLoadedState( DateTime.now().millisecondsSinceEpoch,event.tvGuideItemList)));
   }
 
   _getTvGuideApiData(TvGuideEvent event, TvGuideState state) async{
@@ -32,7 +32,7 @@ class TvGuideBloc extends Bloc<TvGuideEvent, TvGuideState> {
       emit(TvGuideLoadingState());
       tvGuideItemList = await tvGuideRepository.fetchApiData();
       print("################## TV GUIDE RESPONSE ${tvGuideItemList.length}");
-      emit(TvGuideLoadedState(tvGuideItemList));
+      emit(TvGuideLoadedState( DateTime.now().millisecondsSinceEpoch,tvGuideItemList));
     } catch (e) {
       emit(TvGuideErrorState(e.toString()));
     }

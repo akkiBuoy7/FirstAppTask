@@ -8,7 +8,10 @@ abstract class TvGuideEvent extends Equatable {
 
 class TvGuideLoadingEvent extends TvGuideEvent {}
 
-class TvGuideLoadedEvent extends TvGuideEvent {}
+class TvGuideLoadedEvent extends TvGuideEvent {
+  @override
+  List<Object?> get props => [];
+}
 
 class TvGuideFilteredEvent extends TvGuideEvent {
   List<TvGuideDetails> tvGuideItemList;

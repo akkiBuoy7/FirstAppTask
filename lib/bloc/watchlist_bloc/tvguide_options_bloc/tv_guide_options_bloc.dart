@@ -11,5 +11,9 @@ class TvGuideOptionsBloc extends Bloc<TvGuideOptionsEvent, TvGuideOptionsState> 
     on<TvGuideShowSearchEvent>((event, emit) {
       emit(TvGuideShowSearchState(event.showSearchBar));
     });
+
+    on<TvGuideSelectItemEvent>((event, emit) {
+      emit(TvGuideSelectItemState(event.value));
+    });
   }
 }

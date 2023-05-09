@@ -15,3 +15,12 @@ class TvGuideShowSearchState extends TvGuideOptionsState {
   List<Object?> get props => [showSearchBar];
 
 }
+
+class TvGuideSelectItemState extends TvGuideOptionsState {
+  String value;
+
+  TvGuideSelectItemState(this.value);
+
+  @override
+  List<Object?> get props => [value];
+}

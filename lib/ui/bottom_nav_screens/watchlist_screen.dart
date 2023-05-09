@@ -15,6 +15,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> with AutomaticKeepAli
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             centerTitle: true,
             title: Text("Watch List", style: TextStyle(color: Colors.white)),

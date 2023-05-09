@@ -9,7 +9,6 @@ import 'package:video_player/video_player.dart';
 import '../../../bloc/internet_bloc/internet_bloc.dart';
 import '../../../bloc/watchlist_bloc/tvguide_options_bloc/tv_guide_options_bloc.dart';
 
-
 class TvGuideScreen extends StatefulWidget {
   @override
   State<TvGuideScreen> createState() => _TvGuideScreenState();
@@ -24,13 +23,13 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
   int selectedTile = -1;
   String selectedDropdownItem = "Channel1";
 
-  List<DropdownMenuItem<String>> get dropdownItems{
+  List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
-      DropdownMenuItem(child: Text("Channel1"),value: "Channel1"),
-      DropdownMenuItem(child: Text("Channel2"),value: "Channel2"),
-      DropdownMenuItem(child: Text("Channel3"),value: "Channel3"),
-      DropdownMenuItem(child: Text("Channel4"),value: "Channel4"),
-      DropdownMenuItem(child: Text("Channel5"),value: "Channel5"),
+      DropdownMenuItem(child: Text("Channel1"), value: "Channel1"),
+      DropdownMenuItem(child: Text("Channel2"), value: "Channel2"),
+      DropdownMenuItem(child: Text("Channel3"), value: "Channel3"),
+      DropdownMenuItem(child: Text("Channel4"), value: "Channel4"),
+      DropdownMenuItem(child: Text("Channel5"), value: "Channel5"),
     ];
     return menuItems;
   }
@@ -52,6 +51,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black,
       body: _usingMultiBlocListener(),
     );
@@ -105,7 +105,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
   }
 
   Widget _buildLoading() => const Center(
-      child: CircularProgressIndicator(
+          child: CircularProgressIndicator(
         color: Colors.white,
       ));
 
@@ -119,8 +119,8 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
           ),
         ),
         SliverToBoxAdapter(child: _buildListViewUi(context, state)
-          // _buildListViewUi(context, state),
-        )
+            // _buildListViewUi(context, state),
+            )
       ],
     );
   }
@@ -128,16 +128,19 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
   Widget _buildOptionsUi(BuildContext context) {
     return BlocBuilder<TvGuideOptionsBloc, TvGuideOptionsState>(
         builder: (context, state) {
-          if (state is TvGuideShowSearchState) {
-            if (state.showSearchBar) {
-              return _buildSearchBar(context);
-            } else {
-              return _buildMenuOptions();
-            }
-          } else {
-            return _buildMenuOptions();
-          }
-        });
+      if (state is TvGuideShowSearchState) {
+        if (state.showSearchBar) {
+          return _buildSearchBar(context);
+        } else {
+          return _buildMenuOptions();
+        }
+      }else if(state is TvGuideSelectItemState){
+        selectedDropdownItem = state.value;
+        return _buildMenuOptions();
+      } else {
+        return _buildMenuOptions();
+      }
+    });
   }
 
   Widget _buildMenuOptions() {
@@ -148,22 +151,19 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0)
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0)),
             width: 150,
             height: 40,
             child: Padding(
-              padding: const EdgeInsets.only(left:10.0),
+              padding: const EdgeInsets.only(left: 10.0),
               child: DropdownButton(
-                  value: selectedDropdownItem,
+                value: selectedDropdownItem,
                 dropdownColor: Colors.grey,
-                style: TextStyle(color: Colors.white,fontSize: 15),
-                  items: dropdownItems, onChanged: (String? value) {
-                setState(() {
-                  selectedDropdownItem = value!;
-                });
-              },
+                style: TextStyle(color: Colors.white, fontSize: 15),
+                items: dropdownItems,
+                onChanged: (String? value) {
+                  context.read<TvGuideOptionsBloc>().add(TvGuideSelectItemEvent(value!));
+                },
               ),
             ),
           ),
@@ -256,6 +256,11 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
           ),
           suffixIcon: GestureDetector(
             onTap: () {
+
+              context
+                  .read<TvGuideBloc>()
+                  .add(TvGuideLoadedEvent());
+
               context
                   .read<TvGuideOptionsBloc>()
                   .add(TvGuideShowSearchEvent(false));
@@ -287,7 +292,6 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
 
   // ################# Using Expansion Panel Radio ********************
 
-
   Widget _buildListContainer() {
     //print("tvGuideItemList LENGTH ########### ${tvGuideItemList.length}");
 
@@ -307,40 +311,41 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
         animationDuration: Duration(milliseconds: 1000),
         children: tvGuideItemList
             .map((e) => ExpansionPanelRadio(
-            value: e,
-            backgroundColor: Colors.grey,
-            canTapOnHeader: true,
-            headerBuilder: (context, isExpanded) {
-              return Padding(
-                padding: const EdgeInsets.only(
-                    left: 8.0, right: 8.0, bottom: 8.0),
-                child: Container(
-                  height: 60,
-                  color: Colors.blueGrey,
-                  child: Align(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        e.movieName!,
-                        style: TextStyle(color: Colors.white),
+                value: e,
+                backgroundColor: Colors.grey,
+                canTapOnHeader: true,
+                headerBuilder: (context, isExpanded) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 8.0),
+                    child: Container(
+                      height: 60,
+                      color: Colors.blueGrey,
+                      child: Align(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            e.movieName!,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        alignment: Alignment.centerLeft,
                       ),
                     ),
-                    alignment: Alignment.centerLeft,
+                  );
+                },
+                body: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 8.0),
+                    child: _buildAdvancedPlayerScreen(),
                   ),
-                ),
-              );
-            },
-            body: Container(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 8.0, right: 8.0, bottom: 8.0),
-                child: _buildAdvancedPlayerScreen(),
-              ),
-            )))
+                )))
             .toList(),
       ),
     );
   }
+
   // *****************************************************************
 
   // ********************* Using listview with expansion tile
@@ -369,31 +374,28 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
         collapsedBackgroundColor: Colors.brown,
         backgroundColor: Colors.grey,
         onExpansionChanged: ((newState) {
-
-          if (newState){
+          if (newState) {
             selectedTile = index;
-            context
-                .read<TvGuideBloc>()
-                .add(TvGuideExpandNextEvent());
+            context.read<TvGuideBloc>().add(TvGuideExpandNextEvent());
             playVideo(index);
-          }else{
+          } else {
             selectedTile = -1;
-            context
-                .read<TvGuideBloc>()
-                .add(TvGuideExpandNextEvent());
+            context.read<TvGuideBloc>().add(TvGuideExpandNextEvent());
             closePrevPlayer();
           }
 
           print("##### ${newState} ${index}*********");
         }),
         title: Text(tvGuideItemList[index].movieName!),
-        children: [Container(
-          child: Padding(
-            padding: const EdgeInsets.only(
-                left: 8.0, right: 8.0, bottom: 8.0),
-            child: _buildAdvancedPlayerScreen(),
-          ),
-        )],
+        children: [
+          Container(
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+              child: _buildAdvancedPlayerScreen(),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -404,7 +406,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
 
   Widget _buildAdvancedPlayerScreen() {
     return VideoPlayerFactory(
-        VideoPlayerType.TV_GUIDE_VIDEO_PLAYER, videoPlayerController)
+            VideoPlayerType.TV_GUIDE_VIDEO_PLAYER, videoPlayerController)
         .build(context);
   }
 
@@ -417,31 +419,29 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
   void playVideo(int index) {
     Future.delayed(const Duration(seconds: 1), () {
       videoPlayerController =
-      VideoPlayerController.network(tvGuideItemList[index].video?.url ?? "")
-        ..addListener(() => setState(() {}))
-        ..setLooping(true)
-        ..initialize().then((value) => videoPlayerController.play());
+          VideoPlayerController.network(tvGuideItemList[index].video?.url ?? "")
+            ..addListener(() => setState(() {}))
+            ..setLooping(true)
+            ..initialize().then((value) => videoPlayerController.play());
     });
   }
 
   // *****************************************************************
 
-
-
   // ********************* Using custom container and listview
   void openPlayer(int index) {
     Future.delayed(const Duration(seconds: 1), () {
       videoPlayerController =
-      VideoPlayerController.network(tvGuideItemList[index].video?.url ?? "")
-        ..addListener(() => setState(() {}))
-        ..setLooping(true)
-        ..initialize().then((value) => videoPlayerController.play());
+          VideoPlayerController.network(tvGuideItemList[index].video?.url ?? "")
+            ..addListener(() => setState(() {}))
+            ..setLooping(true)
+            ..initialize().then((value) => videoPlayerController.play());
     });
   }
 
   Widget _buildAdvancedPlayer(int index) {
     return VideoPlayerFactory(
-        VideoPlayerType.TV_GUIDE_VIDEO_PLAYER, videoPlayerController)
+            VideoPlayerType.TV_GUIDE_VIDEO_PLAYER, videoPlayerController)
         .build(context);
   }
 
@@ -456,7 +456,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
             print("CLICKED INDEX ${index}");
             // expand the current tile
             tvGuideItemList[index].isExpanded =
-            !tvGuideItemList[index].isExpanded;
+                !tvGuideItemList[index].isExpanded;
 
             print("CLICKED INDEX STATUS${tvGuideItemList[index].isExpanded}");
 
@@ -467,7 +467,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
                   "PREV INDEX STATUS${tvGuideItemList[_selectedTilePrev].isExpanded}");
 
               tvGuideItemList[_selectedTilePrev].isExpanded =
-              !tvGuideItemList[_selectedTilePrev].isExpanded;
+                  !tvGuideItemList[_selectedTilePrev].isExpanded;
               closePrevPlayer();
             }
 
@@ -482,9 +482,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
             _selectedTilePrev = index;
 
             print("SENDING EXPAND EVENT");
-            context
-                .read<TvGuideBloc>()
-                .add(TvGuideExpandNextEvent());
+            context.read<TvGuideBloc>().add(TvGuideExpandNextEvent());
 
             // setState(() {
             //   tvGuideItemList[index].isExpanded =
@@ -529,4 +527,3 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
 }
 
 // *****************************************************************
-

@@ -1,0 +1,1006 @@
+{
+  "channels": [
+    {
+      "name":"Star Plus",
+      "programs":[
+        {
+          "name":"Gladiator",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 50,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"The Third Man",
+          "duration": 75,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Shawshank Redemption",
+          "duration": 90,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Breaking Bad",
+          "duration": 105,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Mad Max: Fury Road",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Toblerone",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Black men",
+          "duration": 45,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Vanilla Sky",
+          "duration": 55,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Back Jack",
+          "duration": 10,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Rodeo",
+          "duration": 15,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 360,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        }
+
+
+      ]
+
+
+    },
+    {
+      "name":"Cartoon Network",
+      "programs":[
+        {
+          "name":"Ben 10",
+          "duration": 30,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Oogy",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Superman",
+          "duration": 75,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Pokemon",
+          "duration": 90,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Dexter Lab",
+          "duration": 105,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Courage",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Power puff girls",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Scooby Doo",
+          "duration": 45,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Doraemon",
+          "duration": 55,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Recess",
+          "duration": 10,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Rodeo",
+          "duration": 15,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Pokemon",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Power Ranger",
+          "duration": 360,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        }
+
+
+      ]
+
+
+    },
+    {
+      "name":"Star Movies",
+      "programs":[
+        {
+          "name":"Die Hard 1",
+          "duration": 30,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Die Hard 2",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Die Hard 3",
+          "duration": 75,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Spiderman",
+          "duration": 90,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Die Hard 4",
+          "duration": 105,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Evil Dead 1",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Evil Dead Rises",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Avengers",
+          "duration": 45,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Harry Potter",
+          "duration": 55,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"James Bond",
+          "duration": 10,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Race",
+          "duration": 15,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"XXX",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Power Ranger",
+          "duration": 360,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        }
+
+
+      ]
+
+
+    },
+    {
+      "name":"Star Sports",
+      "programs":[
+        {
+          "name":"T20 world cup",
+          "duration": 30,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2018 final",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2019 final",
+          "duration": 75,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2020 final",
+          "duration": 90,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2021 final",
+          "duration": 105,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"FIFA world cup",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"La liga",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Bundes Liga",
+          "duration": 45,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Premier league",
+          "duration": 55,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Serie A",
+          "duration": 10,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Ligue 1",
+          "duration": 15,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"ISL",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2017 final",
+          "duration": 360,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        }
+
+
+      ]
+
+
+    },
+    {
+      "name":"Sony",
+      "programs":[
+        {
+          "name":"Recess",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Frozen",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Lion King",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Jungle Book",
+          "duration": 105,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Toy Story",
+          "duration": 140,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Moana",
+          "duration": 75,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Willie Wonka",
+          "duration": 90,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Finding Nemo",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Minions 1",
+          "duration": 100,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Minions 2",
+          "duration": 100,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+        },
+        {
+          "name":"Minions 3",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+        },
+        {
+          "name":"Minions 4",
+          "duration": 70,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+        },
+        {
+          "name":"Minions 5",
+          "duration": 30,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+        }
+      ]
+
+
+    },
+    {
+      "name":"Mtv",
+      "programs":[
+        {
+          "name":"T20 world cup",
+          "duration": 30,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2018 final",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2019 final",
+          "duration": 75,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2020 final",
+          "duration": 90,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2021 final",
+          "duration": 105,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"FIFA world cup",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"La liga",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Bundes Liga",
+          "duration": 45,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Premier league",
+          "duration": 55,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Serie A",
+          "duration": 10,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Ligue 1",
+          "duration": 15,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"ISL",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2017 final",
+          "duration": 360,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        }
+
+
+      ]
+
+
+    },
+    {
+      "name":"ABC News Now",
+      "programs":[
+        {
+          "name":"Recess",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Frozen",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Lion King",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Jungle Book",
+          "duration": 105,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Toy Story",
+          "duration": 140,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Moana",
+          "duration": 75,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Willie Wonka",
+          "duration": 90,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Finding Nemo",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Minions 1",
+          "duration": 100,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Minions 2",
+          "duration": 100,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+        },
+        {
+          "name":"Minions 3",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+        },
+        {
+          "name":"Minions 4",
+          "duration": 70,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+        },
+        {
+          "name":"Minions 5",
+          "duration": 30,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+        }
+      ]
+
+
+    },
+    {
+      "name":"BBC News",
+      "programs":[
+        {
+          "name":"Gladiator",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 50,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"The Third Man",
+          "duration": 75,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Shawshank Redemption",
+          "duration": 90,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Breaking Bad",
+          "duration": 105,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Mad Max: Fury Road",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Toblerone",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Black men",
+          "duration": 45,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Vanilla Sky",
+          "duration": 55,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Back Jack",
+          "duration": 10,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Rodeo",
+          "duration": 15,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 360,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        }
+
+
+      ]
+    },
+    {
+      "name":"CNN",
+      "programs":[
+        {
+          "name":"T20 world cup",
+          "duration": 30,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2018 final",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2019 final",
+          "duration": 75,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2020 final",
+          "duration": 90,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2021 final",
+          "duration": 105,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"FIFA world cup",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"La liga",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Bundes Liga",
+          "duration": 45,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Premier league",
+          "duration": 55,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Serie A",
+          "duration": 10,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Ligue 1",
+          "duration": 15,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"ISL",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"IPL 2017 final",
+          "duration": 360,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        }
+
+
+      ]
+
+
+    },
+    {
+      "name":"Fox News",
+      "programs":[
+        {
+          "name":"Gladiator",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 50,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"The Third Man",
+          "duration": 75,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Shawshank Redemption",
+          "duration": 90,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Breaking Bad",
+          "duration": 105,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Mad Max: Fury Road",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Toblerone",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Black men",
+          "duration": 45,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Vanilla Sky",
+          "duration": 55,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Back Jack",
+          "duration": 10,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Rodeo",
+          "duration": 15,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 360,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        }
+
+
+      ]
+
+
+    },
+    {
+      "name":"Al Jazeera",
+      "programs":[
+        {
+          "name":"Gladiator",
+          "duration": 30,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 60,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"The Third Man",
+          "duration": 75,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Shawshank Redemption",
+          "duration": 90,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Breaking Bad",
+          "duration": 105,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Mad Max: Fury Road",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Toblerone",
+          "duration": 135,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Black men",
+          "duration": 45,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Vanilla Sky",
+          "duration": 55,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Back Jack",
+          "duration": 10,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Rodeo",
+          "duration": 15,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 120,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        },
+        {
+          "name":"Citizen Kane",
+          "duration": 360,
+          "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+
+        }
+
+
+      ]
+
+
+    },
+    {
+      "name":"MBC",
+      "programs":[
+        {
+          "name":"Frozen",
+          "duration": 135,
+          "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
+
+        },
+        {
+          "name":"Loin King",
+          "duration": 120,
+          "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
+
+        },
+        {
+          "name":"Jungle Book",
+          "duration": 105,
+          "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
+
+        },
+        {
+          "name":"Toy Story",
+          "duration": 90,
+          "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
+
+        },
+        {
+          "name":"Moana",
+          "duration": 75,
+          "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
+
+        },
+        {
+          "name":"Willie Wonka",
+          "duration": 60,
+          "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
+
+        },
+        {
+          "name":"Finding Nemo",
+          "duration": 30,
+          "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
+
+        },
+        {
+          "name":"Minions",
+          "duration": 30,
+          "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
+
+        }
+      ]
+
+
+    }
+
+  ],
+  "responseCode": 200,
+  "status":true,
+  "today":"Tuesday"
+}

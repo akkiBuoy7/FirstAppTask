@@ -67,73 +67,137 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   child: Text("${data.error}"),
                 );
               } else if (data.hasData) {
-                return Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: 75,
-                            height: 75,
-                            color: Colors.grey[200],
-                          ),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: Container(
-                              height: 75,
-                              color: Colors.orange[100],
-                              child: SingleChildScrollView(
-                                controller: _horizontalControllerTimeline,
-                                scrollDirection: Axis.horizontal,
-                                child: HeaderContainer(rowEntries: rowEntries),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 5),
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              width: 75,
-                              color: Colors.blue[100],
-                              child: SingleChildScrollView(
-                                controller: _verticalControllerChannel,
-                                child: ColumnContainer(
-                                  colEntries: channelList!,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 5),
-                            Expanded(
-                              child: SizedBox(
-                                child: SingleChildScrollView(
-                                  controller: _verticalControllerProgramme,
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    controller: _horizontalControllerProgramme,
-                                    child: BodyContainer(
-                                      colEntries: channelList!
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                return _buildParent();
               } else {
-                return Center(
-                    child: CircularProgressIndicator(
-                  color: Colors.orange,
-                ));
+                return _buildLoading();
               }
             }));
+  }
+
+  Widget _buildLoading() {
+    return Center(
+        child: CircularProgressIndicator(
+      color: Colors.orange,
+    ));
+  }
+
+  Widget _buildParent() {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                width: 75,
+                height: 75,
+                color: Colors.grey[200],
+              ),
+              const SizedBox(width: 5),
+              Expanded(
+                child: Container(
+                  height: 75,
+                  color: Colors.orange[100],
+                  child: _buildTimelineContainer(rowEntries),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 5),
+          Expanded(
+            child: Row(
+              children: <Widget>[
+                Container(
+                  width: 75,
+                  color: Colors.blue[100],
+                  child: _buildChannelContainer(
+                    channelList!,
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: _buildMainContentContainer(channelList!),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChannelContainer(List<Channels> channelList) {
+    return SingleChildScrollView(
+      controller: _verticalControllerChannel,
+      child: Column(
+        children: List.generate(
+          channelList.length,
+          (i) {
+            return Container(
+              height: 75,
+              width: 75,
+              decoration:
+                  BoxDecoration(border: Border.all(color: Colors.white)),
+              child: Center(child: Text(channelList[i].name!)),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTimelineContainer(List<String> timelineList) {
+    return Container(
+      height: 75,
+      color: Colors.orange[100],
+      child: SingleChildScrollView(
+        controller: _horizontalControllerTimeline,
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(
+            timelineList.length,
+            (i) {
+              return Container(
+                height: 75,
+                width: 75,
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.white)),
+                child: Center(child: Text(rowEntries[i])),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMainContentContainer(List<Channels> channelList) {
+    return SingleChildScrollView(
+      controller: _verticalControllerProgramme,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        controller: _horizontalControllerProgramme,
+        child: Column(
+          children: List.generate(channelList.length, (y) {
+            return Row(
+              children:
+                  List.generate(channelList[y].programs?.length ?? 0, (x) {
+                return _buildProgrammeCell(channelList[y].programs![x]);
+              }),
+            );
+          }),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProgrammeCell(Programs programme) {
+    return Container(
+      height: 75,
+      width: programme.duration?.toDouble(),
+      decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+      child: Center(child: Text(programme.name!)),
+    );
   }
 
   Future<List<Channels>?> _readJsonData() async {
@@ -143,113 +207,5 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     print(">>>>>>>>>>>>>>>>>>>>>######EPG RESPONSE${epgItem.channels?.length}");
     channelList = epgItem.channels;
     return channelList;
-  }
-}
-
-class Tile extends StatelessWidget {
-  final String caption;
-
-  Tile(this.caption);
-
-  @override
-  Widget build(_) => Container(
-        margin: const EdgeInsets.all(8.0),
-        padding: const EdgeInsets.all(8.0),
-        height: 250.0,
-        child: Center(child: Text(caption)),
-      );
-}
-
-class ColumnContainer extends StatelessWidget {
-  final List<Channels> colEntries;
-
-  const ColumnContainer({
-    Key? key,
-    required this.colEntries,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    int numberOfRows = colEntries.length;
-    return Column(
-      children: List.generate(
-        numberOfRows,
-        (i) {
-          return Container(
-            height: 75,
-            width: 75,
-            decoration: BoxDecoration(border: Border.all(color: Colors.white)),
-            child: Center(child: Text(colEntries[i].name!)),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class HeaderContainer extends StatelessWidget {
-  final List<String> rowEntries;
-
-  const HeaderContainer({
-    Key? key,
-    required this.rowEntries,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    int numberOfColumns = rowEntries.length;
-    return Row(
-      children: List.generate(
-        numberOfColumns,
-        (i) {
-          return Container(
-            height: 75,
-            width: 75,
-            decoration: BoxDecoration(border: Border.all(color: Colors.white)),
-            child: Center(child: Text(rowEntries[i])),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class BodyContainer extends StatelessWidget {
-  final List<Channels> colEntries;
-
-  const BodyContainer({
-    Key? key,
-    required this.colEntries,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(colEntries.length, (y) {
-        return Row(
-          children: List.generate(colEntries[y].programs?.length??0, (x) {
-            return TableCell(programme: colEntries[y].programs![x]);
-          }),
-        );
-      }),
-    );
-  }
-}
-
-class TableCell extends StatelessWidget {
-  final Programs programme;
-  const TableCell({
-    Key? key,
-    required this.programme,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 75,
-      width: programme.duration?.toDouble(),
-      decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-      child: Center(child: Text(programme.name!)),
-    );
   }
 }

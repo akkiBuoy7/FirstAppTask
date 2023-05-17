@@ -13,11 +13,34 @@ class FavoritesScreen extends StatefulWidget {
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
   List<Channels>? channelList = [];
-  EpgItem epgItem = EpgItem();
+  late EpgItem epgItem;
 
-  final List<String> colEntries = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-  final List<String> rowEntries =
-      Iterable<int>.generate(15).map((e) => e.toString()).toList();
+  final List<String> timeEntries = [
+    "6:00 AM",
+    "7:00 AM",
+    "8:00 AM",
+    "9:00 AM",
+    "10:00 AM",
+    "11:00 AM",
+    "12:00 PM",
+    "1:00 PM",
+    "2:00 PM",
+    "3:00 PM",
+    "4:00 PM",
+    "5:00 PM",
+    "6:00 PM",
+    "7:00 PM",
+    "8:00 PM",
+    "9:00 PM",
+    "10:00 PM",
+    "11:00 PM",
+    "12:00 AM",
+    "1:00 AM",
+    "2:00 AM",
+    "3:00 AM",
+    "4:00 AM",
+    "5:00 AM"
+  ];
 
   late LinkedScrollControllerGroup _horizontalControllersGroup;
   late ScrollController _horizontalControllerProgramme;
@@ -54,6 +77,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.black,
@@ -89,16 +113,18 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           Row(
             children: <Widget>[
               Container(
-                width: 75,
+                width: 95,
                 height: 75,
-                color: Colors.grey[200],
+                child: Center(child: Text(epgItem.today!,
+                style: TextStyle(color: Colors.white),)),
+                color: Colors.blueGrey,
               ),
-              const SizedBox(width: 5),
+              const SizedBox(width: 8),
               Expanded(
                 child: Container(
                   height: 75,
-                  color: Colors.orange[100],
-                  child: _buildTimelineContainer(rowEntries),
+                  color: Colors.black,
+                  child: _buildTimelineContainer(timeEntries),
                 ),
               )
             ],
@@ -108,8 +134,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             child: Row(
               children: <Widget>[
                 Container(
-                  width: 75,
-                  color: Colors.blue[100],
+                  width: 95,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                  ),
                   child: _buildChannelContainer(
                     channelList!,
                   ),
@@ -133,12 +161,22 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         children: List.generate(
           channelList.length,
           (i) {
-            return Container(
-              height: 75,
-              width: 75,
-              decoration:
-                  BoxDecoration(border: Border.all(color: Colors.white)),
-              child: Center(child: Text(channelList[i].name!)),
+            return Padding(
+              padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
+              child: Container(
+                height: 75,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.amberAccent),
+                    color: Colors.white24,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Center(
+                  child: Text(
+                    channelList[i].name!,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
             );
           },
         ),
@@ -149,7 +187,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget _buildTimelineContainer(List<String> timelineList) {
     return Container(
       height: 75,
-      color: Colors.orange[100],
+      color: Colors.black,
       child: SingleChildScrollView(
         controller: _horizontalControllerTimeline,
         scrollDirection: Axis.horizontal,
@@ -159,10 +197,23 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             (i) {
               return Container(
                 height: 75,
-                width: 75,
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.white)),
-                child: Center(child: Text(rowEntries[i])),
+                width: 130,
+                decoration: BoxDecoration(
+                  border: Border(
+                    right: BorderSide(color: Colors.blueGrey),
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 3.0),
+                    child: Text(
+                      timeEntries[i],
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ),
               );
             },
           ),
@@ -174,6 +225,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget _buildMainContentContainer(List<Channels> channelList) {
     return SingleChildScrollView(
       controller: _verticalControllerProgramme,
+      scrollDirection: Axis.vertical,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         controller: _horizontalControllerProgramme,
@@ -182,7 +234,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             return Row(
               children:
                   List.generate(channelList[y].programs?.length ?? 0, (x) {
-                return _buildProgrammeCell(channelList[y].programs![x]);
+                return Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: _buildProgrammeCell(channelList[y].programs![x]),
+                );
               }),
             );
           }),
@@ -194,16 +249,24 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget _buildProgrammeCell(Programs programme) {
     return Container(
       height: 75,
-      width: programme.duration?.toDouble(),
-      decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-      child: Center(child: Text(programme.name!)),
+      width: (programme.duration?.toDouble())! * 2.0,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.blueGrey),
+          color: Colors.white10,
+          borderRadius: BorderRadius.circular(5)),
+      child: Center(
+          child: Text(
+        programme.name!,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.white),
+      )),
     );
   }
 
   Future<List<Channels>?> _readJsonData() async {
     final jsonData = await rootBundle.loadString('assets/json/epg.json');
 
-    var epgItem = EpgItem.fromJson(jsonDecode(jsonData));
+    epgItem = EpgItem.fromJson(jsonDecode(jsonData));
     print(">>>>>>>>>>>>>>>>>>>>>######EPG RESPONSE${epgItem.channels?.length}");
     channelList = epgItem.channels;
     return channelList;

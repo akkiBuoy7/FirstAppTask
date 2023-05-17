@@ -92,7 +92,7 @@
       "programs":[
         {
           "name":"Ben 10",
-          "duration": 30,
+          "duration": 50,
           "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
 
         },
@@ -185,7 +185,7 @@
         },
         {
           "name":"Die Hard 2",
-          "duration": 60,
+          "duration": 80,
           "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
 
         },
@@ -272,7 +272,7 @@
         },
         {
           "name":"IPL 2018 final",
-          "duration": 60,
+          "duration": 80,
           "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
 
         },
@@ -359,7 +359,7 @@
         },
         {
           "name":"Frozen",
-          "duration": 135,
+          "duration": 155,
           "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
 
         },
@@ -446,7 +446,7 @@
         },
         {
           "name":"IPL 2019 final",
-          "duration": 75,
+          "duration": 95,
           "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
 
         },
@@ -533,7 +533,7 @@
         },
         {
           "name":"Lion King",
-          "duration": 120,
+          "duration": 140,
           "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
 
         },
@@ -699,7 +699,7 @@
         },
         {
           "name":"IPL 2019 final",
-          "duration": 75,
+          "duration": 95,
           "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
 
         },
@@ -861,7 +861,7 @@
       "programs":[
         {
           "name":"Gladiator",
-          "duration": 30,
+          "duration": 50,
           "url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
 
         },
@@ -948,13 +948,13 @@
       "programs":[
         {
           "name":"Frozen",
-          "duration": 135,
+          "duration": 195,
           "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
 
         },
         {
           "name":"Loin King",
-          "duration": 120,
+          "duration": 185,
           "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
 
         },
@@ -966,31 +966,31 @@
         },
         {
           "name":"Toy Story",
-          "duration": 90,
+          "duration": 190,
           "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
 
         },
         {
           "name":"Moana",
-          "duration": 75,
+          "duration": 175,
           "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
 
         },
         {
           "name":"Willie Wonka",
-          "duration": 60,
+          "duration": 160,
           "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
 
         },
         {
           "name":"Finding Nemo",
-          "duration": 30,
+          "duration": 130,
           "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
 
         },
         {
           "name":"Minions",
-          "duration": 30,
+          "duration": 100,
           "url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
 
         }

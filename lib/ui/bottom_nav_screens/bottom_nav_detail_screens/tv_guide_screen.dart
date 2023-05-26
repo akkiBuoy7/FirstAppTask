@@ -25,9 +25,7 @@ class TvGuideScreenState extends State<TvGuideScreen> {
   int selectedTile = -1;
   String selectedDropdownItem = "Channel1";
   int _selectedSortValue = 0;
-  List<TvGuideDetails> suggestions = [];
-  List<TvGuideDetails> rateFilterList = [];
-  List<TvGuideDetails> sortFilterList = [];
+  int _selectedRateValue = 0;
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
@@ -266,13 +264,14 @@ class TvGuideScreenState extends State<TvGuideScreen> {
         context: context,
         builder: (BuildContext context) {
           return CustomBottomSheet(
-            selectedValue: _selectedSortValue,
+            selectedValue: isSortingFilter? _selectedSortValue: _selectedRateValue,
             firstOption: first,
             secondOption: second,
             thirdOption: third,
             callback: (value) {
-              _selectedSortValue = value;
+
               if (isSortingFilter) {
+                _selectedSortValue = value;
                 if (value == 0) {
                   context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
                 } else {
@@ -282,6 +281,7 @@ class TvGuideScreenState extends State<TvGuideScreen> {
                   });
                 }
               } else {
+                _selectedRateValue = value;
                 if (value == 0) {
                   context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
                 } else {
@@ -345,12 +345,11 @@ class TvGuideScreenState extends State<TvGuideScreen> {
 
   Widget _buildSearchBar(BuildContext context) {
     return TextField(
-      onChanged: (value) => CommonMethods.runSearch(value, tvGuideItemList,(
-          List<TvGuideDetails> list
-          ){
-        if(value.isEmpty){
+      onChanged: (value) => CommonMethods.runSearch(value, tvGuideItemList,
+          (List<TvGuideDetails> list) {
+        if (value.isEmpty) {
           context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
-        }else{
+        } else {
           context.read<TvGuideBloc>().add(TvGuideFilteredEvent(list));
         }
       }),
@@ -384,24 +383,22 @@ class TvGuideScreenState extends State<TvGuideScreen> {
     );
   }
 
-
-
   // This function is called whenever the text field changes
-  void _runSearch(String enteredKeyword, List<TvGuideDetails> itemList) {
-    suggestions = [];
-    if (enteredKeyword.isEmpty) {
-      context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
-    } else {
-      suggestions = itemList.where((obj) {
-        final movieName = obj.movieName?.toLowerCase();
-        final input = enteredKeyword.toLowerCase();
-
-        return movieName!.contains(input);
-      }).toList();
-    }
-
-    context.read<TvGuideBloc>().add(TvGuideFilteredEvent(suggestions));
-  }
+  // void _runSearch(String enteredKeyword, List<TvGuideDetails> itemList) {
+  //   suggestions = [];
+  //   if (enteredKeyword.isEmpty) {
+  //     context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
+  //   } else {
+  //     suggestions = itemList.where((obj) {
+  //       final movieName = obj.movieName?.toLowerCase();
+  //       final input = enteredKeyword.toLowerCase();
+  //
+  //       return movieName!.contains(input);
+  //     }).toList();
+  //   }
+  //
+  //   context.read<TvGuideBloc>().add(TvGuideFilteredEvent(suggestions));
+  // }
 
   // ################# Using Expansion Panel Radio ********************
 

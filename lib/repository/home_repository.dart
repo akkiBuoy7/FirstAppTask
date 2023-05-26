@@ -6,7 +6,7 @@ import 'package:first_app/provider/NetworkProvider.dart';
 class HomeRepository {
   final moviesApiProvider = NetworkProvider();
   final _url =
-      "https://dfa44662-a181-4ca4-b613-9d9754818cff.mock.pstmn.io/tvguide";
+      "https://run.mocky.io/v3/38379295-243e-42d0-b912-fbf751a54ec9";
 
   Future<MovieItems> fetchAllMovies() async{
     var response = await moviesApiProvider.fetchMovieList(_url);

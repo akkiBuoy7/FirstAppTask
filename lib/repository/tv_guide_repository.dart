@@ -7,7 +7,7 @@ import '../model/tv_guide_item.dart';
 class TvGuideRepository {
   Future<List<TvGuideDetails>> fetchApiData() async {
     String _url =
-        "https://dfa44662-a181-4ca4-b613-9d9754818cff.mock.pstmn.io/tvguide";
+        "https://run.mocky.io/v3/38379295-243e-42d0-b912-fbf751a54ec9";
 
     NetworkProvider networkProvider = NetworkProvider();
     final response = await networkProvider.fetchMovieList(_url);

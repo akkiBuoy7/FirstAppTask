@@ -1,7 +1,7 @@
 import 'package:first_app/bloc/watchlist_bloc/tvguide_bloc.dart';
 import 'package:first_app/model/tv_guide_item.dart';
 import 'package:first_app/ui/bottom_nav_screens/bottom_nav_detail_screens/video_factory/video_factory_method.dart';
-import 'package:first_app/utility/extension.dart';
+import 'package:first_app/utility/common_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
@@ -12,10 +12,11 @@ import '../../../custom_widget/modal_bottom_sheet.dart';
 
 class TvGuideScreen extends StatefulWidget {
   @override
-  State<TvGuideScreen> createState() => _TvGuideScreenState();
+  State<TvGuideScreen> createState() => TvGuideScreenState();
 }
 
-class _TvGuideScreenState extends State<TvGuideScreen> {
+@visibleForTesting
+class TvGuideScreenState extends State<TvGuideScreen> {
   List<TvGuideDetails> tvGuideItemList = [];
   int _selectedTilePrev = -1;
   bool clickExpanded = false;
@@ -24,6 +25,9 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
   int selectedTile = -1;
   String selectedDropdownItem = "Channel1";
   int _selectedSortValue = 0;
+  List<TvGuideDetails> suggestions = [];
+  List<TvGuideDetails> rateFilterList = [];
+  List<TvGuideDetails> sortFilterList = [];
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
@@ -206,11 +210,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
                   child: GestureDetector(
                     onTap: () {
                       _buildBottomSheet(
-                        "Random",
-                        "Ascending",
-                        "Descending",
-                        true
-                      );
+                          "Random", "Ascending", "Descending", true);
                     },
                     child: Container(
                       width: 40,
@@ -231,12 +231,8 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
                   padding: const EdgeInsets.all(5.0),
                   child: GestureDetector(
                     onTap: () {
-                      _buildBottomSheet(
-                        "Random",
-                        "High rated first",
-                        "Low rated first",
-                        false
-                      );
+                      _buildBottomSheet("Random", "High rated first",
+                          "Low rated first", false);
                     },
                     child: Container(
                       width: 40,
@@ -277,58 +273,87 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
             callback: (value) {
               _selectedSortValue = value;
               if (isSortingFilter) {
-                _sorting(value);
+                if (value == 0) {
+                  context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
+                } else {
+                  CommonMethods.sorting(value, tvGuideItemList,
+                      (List<TvGuideDetails> list) {
+                    context.read<TvGuideBloc>().add(TvGuideFilteredEvent(list));
+                  });
+                }
               } else {
-                _rateFilter(value);
+                if (value == 0) {
+                  context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
+                } else {
+                  CommonMethods.rateFilter(value, tvGuideItemList,
+                      (List<TvGuideDetails> list) {
+                    context.read<TvGuideBloc>().add(TvGuideFilteredEvent(list));
+                  });
+                }
               }
-
               print("######### Selected value is ${value}");
             },
           );
         });
   }
 
-  void _sorting(int selectedFilter) {
-    if (selectedFilter == 0) {
-      context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
-    } else if (selectedFilter == 1) {
-      tvGuideItemList.sort((a, b) {
-        //sorting in ascending order
-        return a.movieName!.compareTo(b.movieName!);
-      });
-      print("LLLLLLL ${tvGuideItemList[0].movieName}");
-      context.read<TvGuideBloc>().add(TvGuideFilteredEvent(tvGuideItemList));
-    } else {
-      tvGuideItemList.sort((a, b) {
-        //sorting in descending order
-        return b.movieName!.toLowerCase().compareTo(a.movieName!.toLowerCase());
-      });
-      print("FFFFFF ${tvGuideItemList[0].movieName}");
-      context.read<TvGuideBloc>().add(TvGuideFilteredEvent(tvGuideItemList));
-    }
-  }
+  // void _sorting(int selectedFilter, List<TvGuideDetails> itemList) {
+  //   if (selectedFilter == 0) {
+  //     context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
+  //   } else if (selectedFilter == 1) {
+  //     itemList.sort((a, b) {
+  //       //sorting in ascending order
+  //       return a.movieName!.compareTo(b.movieName!);
+  //     });
+  //     print("LLLLLLL ${itemList[0].movieName}");
+  //     sortFilterList = itemList;
+  //     context.read<TvGuideBloc>().add(TvGuideFilteredEvent(sortFilterList));
+  //   } else {
+  //     itemList.sort((a, b) {
+  //       //sorting in descending order
+  //       return b.movieName!.toLowerCase().compareTo(a.movieName!.toLowerCase());
+  //     });
+  //     print("FFFFFF ${itemList[0].movieName}");
+  //     sortFilterList = itemList;
+  //     context.read<TvGuideBloc>().add(TvGuideFilteredEvent(sortFilterList));
+  //   }
+  // }
 
-  void _rateFilter(int selectedFilter) {
-    if (selectedFilter == 0) {
-      context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
-    } else if (selectedFilter == 1) {
-      tvGuideItemList.sort((a, b) {
-        return b.rating!.compareTo(a.rating!);
-      });
-      print("LLLLLLL ${tvGuideItemList[0].movieName}");
-      context.read<TvGuideBloc>().add(TvGuideFilteredEvent(tvGuideItemList));
-    } else {
-      tvGuideItemList.sort((a, b) {
-        return a.rating!.compareTo(b.rating!);
-      });
-      print("FFFFFF ${tvGuideItemList[0].movieName}");
-      context.read<TvGuideBloc>().add(TvGuideFilteredEvent(tvGuideItemList));
-    }
+  // void rateFilter(int selectedFilter, List<TvGuideDetails> itemList) {
+  //   if (selectedFilter == 0) {
+  //     context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
+  //   } else if (selectedFilter == 1) {
+  //     itemList.sort((a, b) {
+  //       return b.rating!.compareTo(a.rating!);
+  //     });
+  //     print("LLLLLLL ${itemList[0].movieName}");
+  //     rateFilterList = itemList;
+  //     context.read<TvGuideBloc>().add(TvGuideFilteredEvent(rateFilterList));
+  //   } else {
+  //     itemList.sort((a, b) {
+  //       return a.rating!.compareTo(b.rating!);
+  //     });
+  //     print("FFFFFF ${itemList[0].movieName}");
+  //     rateFilterList = itemList;
+  //     context.read<TvGuideBloc>().add(TvGuideFilteredEvent(rateFilterList));
+  //   }
+  // }
+
+  sum1(int i, int j) {
+    return i + j;
   }
 
   Widget _buildSearchBar(BuildContext context) {
     return TextField(
-      onChanged: (value) => _runFilter(value),
+      onChanged: (value) => CommonMethods.runSearch(value, tvGuideItemList,(
+          List<TvGuideDetails> list
+          ){
+        if(value.isEmpty){
+          context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
+        }else{
+          context.read<TvGuideBloc>().add(TvGuideFilteredEvent(list));
+        }
+      }),
       style: TextStyle(color: Colors.white),
       decoration: new InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -359,13 +384,15 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
     );
   }
 
+
+
   // This function is called whenever the text field changes
-  void _runFilter(String enteredKeyword) {
-    List<TvGuideDetails> suggestions = [];
+  void _runSearch(String enteredKeyword, List<TvGuideDetails> itemList) {
+    suggestions = [];
     if (enteredKeyword.isEmpty) {
       context.read<TvGuideBloc>().add(TvGuideLoadedEvent());
     } else {
-      suggestions = tvGuideItemList.where((obj) {
+      suggestions = itemList.where((obj) {
         final movieName = obj.movieName?.toLowerCase();
         final input = enteredKeyword.toLowerCase();
 
@@ -408,6 +435,7 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
                       height: 60,
                       color: Colors.blueGrey,
                       child: Align(
+                        alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
@@ -415,7 +443,6 @@ class _TvGuideScreenState extends State<TvGuideScreen> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        alignment: Alignment.centerLeft,
                       ),
                     ),
                   );

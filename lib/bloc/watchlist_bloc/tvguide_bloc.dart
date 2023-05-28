@@ -17,7 +17,7 @@ class TvGuideBloc extends Bloc<TvGuideEvent, TvGuideState> {
 
   TvGuideBloc(this.tvGuideRepository) : super(TvGuideLoadingState()) {
     on<TvGuideLoadedEvent>((event, emit) async {
-      _getTvGuideApiData(event, state);
+      getTvGuideApiData(event, state);
     });
     on<TvGuideExpandNextEvent>((event, emit) async {
       emit(TvGuideExpandNextState());
@@ -27,7 +27,7 @@ class TvGuideBloc extends Bloc<TvGuideEvent, TvGuideState> {
         emit(TvGuideLoadedState( DateTime.now().millisecondsSinceEpoch,event.tvGuideItemList)));
   }
 
-  _getTvGuideApiData(TvGuideEvent event, TvGuideState state) async{
+  getTvGuideApiData(TvGuideEvent event, TvGuideState state) async{
     try {
       emit(TvGuideLoadingState());
       tvGuideItemList = await tvGuideRepository.fetchApiData();

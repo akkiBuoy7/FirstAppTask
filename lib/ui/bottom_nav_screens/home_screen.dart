@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:http/http.dart' show Client;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:first_app/Utility/project_util.dart';
 import 'package:first_app/bloc/home_movies_bloc.dart';

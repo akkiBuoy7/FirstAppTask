@@ -11,12 +11,18 @@ import 'package:first_app/ui/bottom_nav_screens/watchlist_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/src/client.dart';
 import '../Utility/project_util.dart';
 import '../model/movie_items.dart';
 import '../ui/SplashScreen.dart';
 import '../ui/bottom_nav_screens/bottom_nav_detail_screens/home_screen_details.dart';
 
 class AppNavigation {
+
+  Client client;
+
+  AppNavigation(this.client);
+
   Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case ProjectUtil.SPLASH_SCREEN_ROUTE:

@@ -35,7 +35,7 @@ class CommonMethods {
     }
   }
 
-  static void runSearch(String enteredKeyword, List<TvGuideDetails> itemList,
+   static void runSearch(String enteredKeyword, List<TvGuideDetails> itemList,
       Function callback) {
     List<TvGuideDetails> resultList = [];
 

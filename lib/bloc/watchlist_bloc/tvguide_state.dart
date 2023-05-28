@@ -8,16 +8,16 @@ abstract class TvGuideState extends Equatable {
 
 class TvGuideLoadingState extends TvGuideState {
   @override
-  List<Object?> get props => [Random().nextDouble()];
+  List<Object?> get props => [];
 }
 
 class TvGuideLoadedState extends TvGuideState {
   List<TvGuideDetails> tvGuideItemList;
-  final int now;
+  final int? now;
   TvGuideLoadedState(this.now,this.tvGuideItemList);
 
   @override
-  List<Object?> get props => [now,tvGuideItemList];
+  List<Object?> get props => [tvGuideItemList];
 }
 
 class TvGuideErrorState extends TvGuideState {

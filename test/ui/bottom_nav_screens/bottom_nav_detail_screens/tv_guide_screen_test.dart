@@ -5,7 +5,9 @@ import 'package:first_app/bloc/watchlist_bloc/tvguide_bloc.dart';
 import 'package:first_app/model/tv_guide_item.dart';
 import 'package:first_app/provider/NetworkProvider.dart';
 import 'package:first_app/repository/tv_guide_repository.dart';
+import 'package:first_app/ui/bottom_nav_screens/bottom_nav_detail_screens/tv_guide_screen.dart';
 import 'package:first_app/utility/common_methods.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -119,13 +121,24 @@ Future<void> main() async {
         act: (bloc) => tvGuideBloc.add(TvGuideLoadedEvent()),
         expect: () => <TvGuideState>[
               TvGuideLoadingState(),
+
               TvGuideLoadedState(DateTime.now().minute, tvGuideItemListTest),
             ],
         verify: (_) async {
           verify((() => mockRepository.fetchApiData())).called(1);
         });
   });
+
+
+  testWidgets('MyWidget has a title and message', (tester) async {
+    await tester.pumpWidget( TvGuideScreen());
+
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
 }
+
+
 
 /*
 To get the widget state in unit test

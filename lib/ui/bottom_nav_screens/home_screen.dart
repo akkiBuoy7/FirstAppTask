@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:first_app/custom_widget/responsive_ui.dart';
 import 'package:http/http.dart' show Client;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:first_app/Utility/project_util.dart';
@@ -60,38 +61,38 @@ class _HomeScreenState extends State<HomeScreen> {
         body: _usingMultiBlocListener());
   }
 
-  Widget _usingProvider() {
-    return Container(
-      child: BlocProvider(
-        create: (_) => context.read<HomeMoviesBloc>(),
-        child: BlocListener<HomeMoviesBloc, HomeMoviesState>(
-          listener: (context, state) {
-            if (state is HomeMoviesErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message!),
-                ),
-              );
-            } else if (state is HomeMoviesLoadedState) {
-            }
-          },
-          child: BlocBuilder<HomeMoviesBloc, HomeMoviesState>(
-            builder: (context, state) {
-              if (state is HomeMoviesInitialState) {
-                return Container();
-              } else if (state is HomeMoviesLoadingState) {
-                return _buildLoading();
-              } else if (state is HomeMoviesLoadedState) {
-                return buildGridViewUi(context, state.movieItems);
-              } else {
-                return Container();
-              }
-            },
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _usingProvider() {
+  //   return Container(
+  //     child: BlocProvider(
+  //       create: (_) => context.read<HomeMoviesBloc>(),
+  //       child: BlocListener<HomeMoviesBloc, HomeMoviesState>(
+  //         listener: (context, state) {
+  //           if (state is HomeMoviesErrorState) {
+  //             ScaffoldMessenger.of(context).showSnackBar(
+  //               SnackBar(
+  //                 content: Text(state.message!),
+  //               ),
+  //             );
+  //           } else if (state is HomeMoviesLoadedState) {
+  //           }
+  //         },
+  //         child: BlocBuilder<HomeMoviesBloc, HomeMoviesState>(
+  //           builder: (context, state) {
+  //             if (state is HomeMoviesInitialState) {
+  //               return Container();
+  //             } else if (state is HomeMoviesLoadingState) {
+  //               return _buildLoading();
+  //             } else if (state is HomeMoviesLoadedState) {
+  //               return buildGridViewUi(context, state.movieItems);
+  //             } else {
+  //               return Container();
+  //             }
+  //           },
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _usingMultiBlocListener() {
     return Container(
@@ -128,7 +129,13 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (state is HomeMoviesLoadingState) {
                 return _buildLoading();
               } else if (state is HomeMoviesLoadedState) {
-                return buildGridViewUi(context, state.movieItems);
+                return
+                    //buildListViewUi(context, state.movieItems);
+                    ResponsiveUi(
+                  mobile: buildGridViewUi(context, state.movieItems),
+                  tablet: buildListViewUi(context, state.movieItems),
+                  tv: buildListViewUi(context, state.movieItems),
+                );
               } else {
                 return Container();
               }
@@ -137,83 +144,124 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget usingBlocConsumer() {
-    return Container(
-      child: BlocConsumer<HomeMoviesBloc, HomeMoviesState>(
-        listener: (context, state) {
-          if (state is HomeMoviesErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is HomeMoviesInitialState) {
-            return _buildLoading();
-          } else if (state is HomeMoviesLoadingState) {
-            return _buildLoading();
-          } else if (state is HomeMoviesLoadedState) {
-            return buildGridViewUi(context, state.movieItems);
-          } else {
-            return Container();
-          }
-        },
-      ),
-    );
-  }
+  // Widget usingBlocConsumer() {
+  //   return Container(
+  //     child: BlocConsumer<HomeMoviesBloc, HomeMoviesState>(
+  //       listener: (context, state) {
+  //         if (state is HomeMoviesErrorState) {
+  //           ScaffoldMessenger.of(context).showSnackBar(
+  //             SnackBar(
+  //               content: Text(state.message),
+  //             ),
+  //           );
+  //         }
+  //       },
+  //       builder: (context, state) {
+  //         if (state is HomeMoviesInitialState) {
+  //           return _buildLoading();
+  //         } else if (state is HomeMoviesLoadingState) {
+  //           return _buildLoading();
+  //         } else if (state is HomeMoviesLoadedState) {
+  //           return buildGridViewUi(context, state.movieItems);
+  //         } else {
+  //           return Container();
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget buildGridViewUi(BuildContext context, MovieItems dataModel) {
     return GridView.builder(
-      shrinkWrap: true,
-      primary: false,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisExtent: 120,
           mainAxisSpacing: 12,
           crossAxisSpacing: 12),
       itemBuilder: (context, index) {
-        return Stack(children: [
-          InkWell(
-            onTap: () {
-              // var nextPageData = {"data": dataModel.movieDetails[index]};
-              // Navigator.pushNamed(
-              //     context, ProjectUtil.HOME_DETAILS_SCREEN_ROUTE,
-              //     arguments: nextPageData);
-
-              Navigator.pushNamed(
-                  context, ProjectUtil.HOME_DETAILS_SCREEN_ROUTE,
-                  arguments: dataModel.movieDetails[index]);
-            },
-            child: Container(
-              color: Colors.black,
-              child: Image.network(
-                dataModel.movieDetails[index].imageUrl ?? "",
-                fit: BoxFit.fill,
-              ),
-              width: double.infinity,
-              height: double.infinity,
-            ),
-          ),
-          Positioned(
-            bottom: 30,
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: SizedBox.square(
-                dimension: 10,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.play_circle),
-                  color: Colors.orange,
-                ),
-              ),
-            ),
-          )
-        ]);
+        return buildGridContainer(dataModel, index);
       },
       itemCount: dataModel.movieDetails.length,
     );
+  }
+
+  Widget buildGridContainer(MovieItems dataModel, int index) {
+    return Stack(children: [
+      InkWell(
+        onTap: () {
+          // var nextPageData = {"data": dataModel.movieDetails[index]};
+          // Navigator.pushNamed(
+          //     context, ProjectUtil.HOME_DETAILS_SCREEN_ROUTE,
+          //     arguments: nextPageData);
+
+          Navigator.pushNamed(context, ProjectUtil.HOME_DETAILS_SCREEN_ROUTE,
+              arguments: dataModel.movieDetails[index]);
+        },
+        child: Container(
+          color: Colors.black,
+          child: Image.network(
+            dataModel.movieDetails[index].imageUrl ?? "",
+            fit: BoxFit.fill,
+          ),
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      ),
+      Positioned(
+        bottom: 30,
+        child: Align(
+          alignment: Alignment.bottomLeft,
+          child: SizedBox.square(
+            dimension: 10,
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.play_circle),
+              color: Colors.orange,
+            ),
+          ),
+        ),
+      )
+    ]);
+  }
+
+  Widget buildListViewUi(BuildContext context, MovieItems dataModel) {
+    return ListView.builder(
+      shrinkWrap: true,
+      primary: false,
+      itemBuilder: (context, index) {
+        return buildListViewContainer(dataModel, index);
+      },
+      itemCount: dataModel.movieDetails.length,
+    );
+  }
+
+  Padding buildListViewContainer(MovieItems dataModel, int index) {
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: 150,
+          color: Colors.blue,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                width: 200,
+                height: double.infinity,
+                child: Image.network(
+                  dataModel.movieDetails[index].imageUrl ?? "",
+                  fit: BoxFit.fill,
+                ),
+              ),
+              Expanded(
+                child: Text(dataModel.movieDetails[index].movieName,style: TextStyle(
+                  color: Colors.white
+                ),),
+              )
+            ],
+          ),
+        ),
+      );
   }
 
   Widget _buildLoading() => Center(child: CircularProgressIndicator());
@@ -300,5 +348,4 @@ class _HomeScreenState extends State<HomeScreen> {
 //   movieList = movieItems?.movieDetails;
 //   return movieList;
 // }
-
 }
